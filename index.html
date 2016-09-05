@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang='en-US'>
 <title>Sri Jagannatha Panchanga</title>
 <META charset="utf-8">
@@ -10,7 +10,7 @@
 var minutes = 1000 * 60; //Milliseconds
 var hours = minutes * 60;//Milliseconds
 var day = hours * 24;//Milliseconds
-TimeZoneOffset=5.5; 
+TimeZoneOffset=5.5;
 var emonth = ["जनवरी","फरवरी","मार्च","अप्रेल","मई","जून","जुलाई","अगस्त","सितम्बर","अक्टूबर","नबंवर","दिसम्बर"]
 var emonth2 = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
 var nakshatra =["अश्विनी/alpha arietis","भरणी/41 arietis","कृतिका/Pleiades","रोहिणी/alpha tauri","मृगशिरा/lambda orionis","आर्द्रा/alpha orionis","पुर्नवसु/beta geminorum","पुष्य/delta canceri","अश्लेषा/alpha canceri","मघा/alpha leonis","पू.फाल्गुनी/delta leonis","उ.फाल्गुनी/beta leonis","हस्त/gamma or delta corvi","चित्रा/alpha virginis","स्वाति/alpha bootis","विशाखा/alpha libra","अनुराधा/delta scorpionis","ज्येष्ठाalpha scorpionis/","मूल/lambda scorpionis","पू.षाढ़ा/delta sagittarii","उ.षाढ़ा/sigma sagittarii","श्रवण/alpha aquilae","धनिष्ठा/alpha delphini","शतभिषा/lambda aqurii","पू.भाद्रपद/alpha pegasi","उ.भाद्रपद/gamma pegasi","रेवती/delta piscium"];
@@ -66,16 +66,16 @@ var chart =[
    {'text':'Ketu/केतु',  'long':0,'retro':"", 'speed':0,'sleep':"",'id':9,'bhava':0,'tx':'के'}
    ];
   var planet_const=[
-   {'name':'star',  'rotation':0,  'sighra':0,   'apogee':0,    'circumm':0,   'circums':0},
-   {'name':'sun',  'rotation':4320000, 'sighra':4320000, 'apogee':77 + 17 / 60, 'circumm':13 + 50 / 60, 'circums':0},
-   {'name':'moon',  'rotation':57753336,'sighra':0,   'apogee':0,    'circumm':31+50/60,  'circums':0},
-   {'name':'mercury', 'rotation':4320000, 'sighra':17937060, 'apogee':220+27/60,  'circumm':29,   'circums':131.5},
-   {'name':'venus', 'rotation':4320000, 'sighra':7022376, 'apogee':79+50/60,  'circumm':11.5,   'circums':261},
-   {'name':'mars',  'rotation':2296832, 'sighra':4320000, 'apogee':130+2/60,  'circumm':73.5,   'circums':233.5},
-   {'name':'jupiter', 'rotation':364220, 'sighra':4320000, 'apogee':171+18/60,  'circumm':32.5,   'circums':71},
-   {'name':'saturn', 'rotation':146568, 'sighra':4320000, 'apogee':236+37/60,  'circumm':48.5,   'circums':39.5},
-   {'name':'candrocca','rotation':488203, 'sighra':0,   'apogee':0,    'circumm':0,   'circums':0},
-   {'name':'rahu',  'rotation':-232238, 'sighra':0,   'apogee':0,    'circumm':0,   'circums':0}
+   {'name':'star',		'manda':-1,	'rotation':0,  'sighra':0,   'apogee':0,    'circumm':0,   'circums':0},
+   {'name':'sun',		'manda':3,	'rotation':4320000, 'sighra':4320000, 'apogee':77 + 17 / 60, 'circumm':13 + 50 / 60, 'circums':0},
+   {'name':'moon',	  	'manda':6,	'rotation':57753336,'sighra':0,   'apogee':0,    'circumm':31+50/60,  'circums':0},
+   {'name':'mercury',	'manda':5,	'rotation':4320000, 'sighra':17937060, 'apogee':220+27/60,  'circumm':29,   'circums':131.5},
+   {'name':'venus',		'manda':4,	'rotation':4320000, 'sighra':7022376, 'apogee':79+50/60,  'circumm':11.5,   'circums':261},
+   {'name':'mars',		'manda':2,	'rotation':2296832, 'sighra':4320000, 'apogee':130+2/60,  'circumm':73.5,   'circums':233.5},
+   {'name':'jupiter',	'manda':1,	'rotation':364220, 'sighra':4320000, 'apogee':171+18/60,  'circumm':32.5,   'circums':71},
+   {'name':'saturn',	'manda':0,	'rotation':146568, 'sighra':4320000, 'apogee':236+37/60,  'circumm':48.5,   'circums':39.5},
+   {'name':'candrocca',	'manda':-1,	'rotation':488203, 'sighra':0,   'apogee':0,    'circumm':0,   'circums':0},
+   {'name':'rahu',		'manda':-1,	'rotation':-232238, 'sighra':0,   'apogee':0,    'circumm':0,   'circums':0}
   ];
 function handleErr(msg,url,l)
 {
@@ -87,16 +87,11 @@ function handleErr(msg,url,l)
  alert(txt);
  return true;
 }
- function padZero(num) {
-  if(num < 10) {
-   return "0"+ String(num);
-  }
-  else{
-   return String(num);
-  }
+ function padZero(t) {
+  return t<10?"0"+t:t;
  }
  function frac(x){
-  return (x-parseInt(x))
+  return (x-pI(x))
  }
 /// the getPanchanga function take,
 /// INPUT VALUES: datetime, long and latitude.
@@ -147,50 +142,48 @@ function getPanchanga(date_time,longitude,latitude){
   chart[i].retro = this.grahas.speed[i-1]<0?" <b>(व)</b>":"";
  }
  for(i=0;i<10;++i){
-  chart[i].bhava=(parseInt(chart[i].long/30)-parseInt(chart[0].long/30)+12)%12+1;
+  chart[i].bhava=(pI(chart[i].long/30)-pI(chart[0].long/30)+12)%12+1;
  }
  //chart.sort(function(a,b){return a.long - b.long}); //function for sorting according to longitude value
  this.moon_cur = this.grahas.grahas[1];
  this.sun_cur = this.grahas.grahas[0];
  this.sunrise = new Date(date_time);
  this.sunrise_next = new Date(date_time);
- var sr= calcSunriseGMT(dateToJul(cur_date),latitude,longitude);
- var sr2= calcSunriseGMT(dateToJul(cur_date+day),latitude,longitude);
- this.sunrise.setTime(parseInt(cur_date/day)*day + sr*minutes);
- this.sunrise_next.setTime(parseInt(cur_date/day)*day+day + sr2*minutes);
+ var sr= calcSunriseGMT(DtJ(cur_date),latitude,longitude);
+ var sr2= calcSunriseGMT(DtJ(cur_date+day),latitude,longitude);
+ this.sunrise.setTime(pI(cur_date/day)*day + sr*minutes);
+ this.sunrise_next.setTime(pI(cur_date/day)*day+day + sr2*minutes);
  this.sunset = new Date(date_time);
- var ss= calcSunsetGMT(dateToJul(cur_date),latitude,longitude);
- this.sunset.setTime(parseInt(cur_date/day)*day + ss*minutes);
+ var ss= calcSunsetGMT(DtJ(cur_date),latitude,longitude);
+ this.sunset.setTime(pI(cur_date/day)*day + ss*minutes);
  
  this.noon = new Date(date_time)
- var n= calcSolNoonGMT(dateToJul(cur_date),longitude);
- this.noon.setTime(parseInt(cur_date/day)*day + n*minutes);
+ var n= calcSolNoonGMT(DtJ(cur_date),longitude);
+ this.noon.setTime(pI(cur_date/day)*day + n*minutes);
 
  var error_date= new Date("1 JAN 1970 00:00:01 UTC")//because of parsing 1/1/1970 and 31/12/1969 return same values so correcting
  var temp = new Date(cur_date-this.sunrise%day);
  if (cur_date<error_date){
  this.vara_cur = (temp.getDay()+6)%7;
- // alert(true+vara_cur);
- this.vara_name = vara[(vara_cur+6)%7];
  this.vara_enter = (this.sunrise.getDay()+6)%7;
  this.vara_exit = (this.sunrise_next.getDay()+6)%7;
  }else{
  this.vara_cur = temp.getDay();
- this.vara_name = vara[vara_cur];
  this.vara_enter = this.sunrise.getDay();
  this.vara_exit = this.sunrise_next.getDay();
 }
+ this.vara_name = vara[vara_cur];
  
  this.MaandiDayTime = new Date();
- this.MaandiDayTime.setTime(parseInt(cur_date/day)*day + (ss-sr)*MaandiGunanka[this.vara_cur]*minutes);
+ this.MaandiDayTime.setTime(pI(cur_date/day)*day + (ss-sr)*MaandiGunanka[this.vara_cur]*minutes);
  this.MaandiNightTime = new Date();
- this.MaandiNightTime.setTime(parseInt(cur_date/day)*day +ss*minutes+ (24*60-ss+sr2)*MaandiGunanka[(this.vara_cur+4)%8]*minutes);
+ this.MaandiNightTime.setTime(pI(cur_date/day)*day +ss*minutes+ (24*60-ss+sr2)*MaandiGunanka[(this.vara_cur+4)%8]*minutes);
  this.MaandiDay = new calculateAscendant(this.MaandiDayTime,latitude,longitude);
  this.MaandiNight = new calculateAscendant(this.MaandiNightTime,latitude,longitude);
 
  this.nakshatra_cur = this.moon_cur/nakshatra_size;
  this.nakshatra_cur1 = this.nakshatra_cur+1;
- this.nakshatra_name=nakshatra[parseInt(this.nakshatra_cur)];
+ this.nakshatra_name=nakshatra[pI(this.nakshatra_cur)];
  this.nakshatra_enter = new Date();
  nakshatra_enter.setTime(cur_date-(this.moon_cur%nakshatra_size)/this.grahas.speed[1]);
  this.nakshatra_exit = new Date();
@@ -198,7 +191,7 @@ function getPanchanga(date_time,longitude,latitude){
 
  this.yoga_cur = (this.moon_cur +this.sun_cur)%360/nakshatra_size;
  this.yoga_cur1 = this.yoga_cur+1;
- this.yoga_name = yogas[parseInt(this.yoga_cur)];
+ this.yoga_name = yogas[pI(this.yoga_cur)];
  this.yoga_enter = new Date();
  yoga_enter.setTime(cur_date-((this.moon_cur + this.sun_cur)%nakshatra_size)/(this.grahas.speed[1]+this.grahas.speed[0]));
  this.yoga_exit = new Date();
@@ -206,7 +199,7 @@ function getPanchanga(date_time,longitude,latitude){
 
  this.tithi_cur = ((360+this.moon_cur - this.sun_cur)%360)/12;
  this.tithi_cur1 = this.tithi_cur+1;
- this.tithi_name = tithi[parseInt(this.tithi_cur)];
+ this.tithi_name = tithi[pI(this.tithi_cur)];
  this.tithi_enter = new Date();
  tithi_enter.setTime(cur_date-(((360+this.moon_cur - this.sun_cur)%360)%12)/(this.grahas.speed[1] - this.grahas.speed[0]));
  this.tithi_exit = new Date();
@@ -214,7 +207,7 @@ function getPanchanga(date_time,longitude,latitude){
 
  this.karana_cur = this.tithi_cur * 2;
  this.karana_cur1 = this.karana_cur+1;
- this.karana_name = karana[parseInt(this.karana_cur)];
+ this.karana_name = karana[pI(this.karana_cur)];
  this.karana_enter = new Date();
  karana_enter.setTime(cur_date-(((360+this.moon_cur - this.sun_cur)%360)%6)/(this.grahas.speed[1] - this.grahas.speed[0]));
  this.karana_exit = new Date();
@@ -224,12 +217,33 @@ function getPanchanga(date_time,longitude,latitude){
  this.muhurthatable = new getMuhurthaTable(this.sunrise,this.sunset);
  this.horatable = new getHoraTable(this.vara_cur,this.sunrise,this.sunrise_next);
 //calculations of upagrahas
- Dhuma=grahas.grahas[0]+133.333333333;
- Vyatipata=360-Dhuma;
- Parivesha=Vyatipata+180;
- Chapa=360-Parivesha;
- Upketu=Chapa+16.66666666666
- Gulika=(date_time<sunset)?MaandiDay.Ascendant:MaandiNight.Ascendant;
+ Dhuma=(grahas.grahas[0]+133.333333333);
+ Vyatipata=(360-Dhuma);
+ Parivesha=(Vyatipata+180);
+ Chapa=(360-Parivesha);
+ Upketu=(Chapa+16.666)
+ Maandi=((date_time<sunset)?MaandiDay.Ascendant:MaandiNight.Ascendant);
+ //Gulika=(Maandi-12);
+ this.lagn=grahas.grahas[8];this.son=grahas.grahas[0];this.moo=grahas.grahas[1];
+ bls=0.08333333333;hls=0.04166666667;gls=0.016666666667;vils=.00027777777777777778;
+ 
+ this.bhaavlagn=((((date_time-sunrise)/day)/bls*30+son)%360);
+ this.horalagn=((((date_time-sunrise)/day)/hls*30+son)%360);
+ this.ghatilagn=((((date_time-sunrise)/day)/gls*30+son)%360);
+ this.vighatilagn=((((date_time-sunrise)/day)/vils*30+son)%360);
+ this.sreelagn=(((moo%13.3333333333333333)/13.3333333333333333*360+lagn)%360);
+ this.Varandalagn=((3600+((pI(lagn/30)%2)?(360-((pI(horalagn/30)%2)?(lagn+horalagn):(360-horalagn-lagn))):(((pI(horalagn/30)%2)?(Math.abs(horalagn-360+lagn)):(360-lagn+360-horalagn)))))%360);
+
+ kL=kaalatable.kaala_lagn;Vc=vara_cur;
+Kaala=((date_time<sunset)?((Vc==0)?(kL[0]):((Vc==1)?(kL[7]):((Vc==2)?(kL[6]):((Vc==3)?(kL[5]):((Vc==4)?(kL[4]):((Vc==5)?(kL[3]):(kL[6]))))))):((Vc==0)?(kL[12]):((Vc==1)?(kL[11]):((Vc==2)?(kL[10]):((Vc==3)?(kL[9]):((Vc==4)?(kL[8]):((Vc==5)?(kL[15]):(kL[14]))))))));
+
+Mrityu=((date_time<sunset)?((Vc==0)?(kL[2]):((Vc==1)?(kL[1]):((Vc==2)?(kL[0]):((Vc==3)?(kL[7]):((Vc==4)?(kL[6]):((Vc==5)?(kL[5]):(kL[4]))))))):((Vc==0)?(kL[14]):((Vc==1)?(kL[13]):((Vc==2)?(kL[12]):((Vc==3)?(kL[11]):((Vc==4)?(kL[10]):((Vc==5)?(kL[9]):(kL[8]))))))));
+
+ArdhaPrahar=((date_time<sunset)?((Vc==0)?(kL[3]):((Vc==1)?(kL[2]):((Vc==2)?(kL[1]):((Vc==3)?(kL[0]):((Vc==4)?(kL[7]):((Vc==5)?(kL[6]):(kL[5]))))))):((Vc==0)?(kL[15]):((Vc==1)?(kL[14]):((Vc==2)?(kL[13]):((Vc==3)?(kL[12]):((Vc==4)?(kL[11]):((Vc==5)?(kL[10]):(kL[9]))))))));
+
+YamaGhantak=((date_time<sunset)?((Vc==0)?(kL[4]):((Vc==1)?(kL[3]):((Vc==2)?(kL[2]):((Vc==3)?(kL[1]):((Vc==4)?(kL[0]):((Vc==5)?(kL[7]):(kL[6]))))))):((Vc==0)?(kL[8]):((Vc==1)?(kL[15]):((Vc==2)?(kL[14]):((Vc==3)?(kL[13]):((Vc==4)?(kL[12]):((Vc==5)?(kL[11]):(kL[10]))))))));
+
+Gulika=((date_time<sunset)?((Vc==0)?(kL[6]):((Vc==1)?(kL[5]):((Vc==2)?(kL[4]):((Vc==3)?(kL[3]):((Vc==4)?(kL[2]):((Vc==5)?(kL[1]):(kL[0]))))))):((Vc==0)?(kL[10]):((Vc==1)?(kL[9]):((Vc==2)?(kL[8]):((Vc==3)?(kL[15]):((Vc==4)?(kL[14]):((Vc==5)?(kL[13]):(kL[12]))))))));
  
  this.ahar=Math.floor(jd2-588465.5);
  YCD=1582237828-4320000;
@@ -274,11 +288,13 @@ var posi;
 posi=(tithi0<15)?1*tithi0/15:1*(30-tithi0)/15
 ap=tithi<15?'true':'false'
  this.kaliyear=Math.floor((ahar+(4-masa_num)*30)*4320000/YCD);
+ this.sakayear=this.kaliyear-3179;
+ this.vikramayear=this.sakayear+135;
  this.iSamvatasara=Math.floor((((kaliyear*211 - 108)/18000 ) + kaliyear +27-1) % 60);//or use this one this.iSamvatasara = ( 
  this.iSamvatasaras = ( (date_time.getFullYear()-1)%60 )+ ( (this.grahas.grahas[0]>240 && date_time.getMonth()<5) ? -7 : -6); //for south indians
  this.sSamvatsara = samvatsara[(this.iSamvatasara+60)%60];
  this.sSamvatsaras = samvatsara[(this.iSamvatasaras+60)%60];
- this.iSauraMaasa = parseInt(this.grahas.grahas[0]/30+.0000000001)%12;
+ this.iSauraMaasa = pI(this.grahas.grahas[0]/30+.0000000001)%12;
  this.iSauraMaasafrac = frac((this.grahas.grahas[0]/30))%12;
   diff=(jd2-((iSauraMaasafrac)*30))//+0.5
 //calculation of Samkranti
@@ -307,27 +323,37 @@ tt2=this.tithi_cur1-Math.floor(this.tithi_cur1)
 tt3=this.karana_cur1-Math.floor(this.karana_cur1)
 tt4=this.yoga_cur1-Math.floor(this.yoga_cur1)
  this.rasiHTML = getChart(chart);
- this.html ="<div class='whitebox' id='wb_style2'>"
- this.html += "\n<b>वर्तमान पंचाग दिनाँक</b> "+ this.date_time +
-  "<br/><style>"+"body{background-color:rgba(255,0,215,1);}"+
+ this.html ="<div class='whitebox pA' id='wb_style2'>"
+ this.html += "\n<style>"+"body{background-color:rgba(255,0,215,1);}"+
   "*{box-sizing:border-box;}"+
+ /* ".bluetab{background:0; position:fixed; left:0; top:0; height:100%; width:auto; padding:8px; border:2px solid#0072bc; overflow:hidden; border-radius:40px; background-color:lightblue;}"+
+  "ul.tabs{margin:5px 0 0 0;padding:0;list-style:none;list-style-image:none;list-style-type:none;cursor:pointer}"+
+  "ul.tabs li{color:#0072bc; font-size:14px; margin-right:5px; padding:0 7px 0 7px; overflow:hidden; font-weight:bold; background-color:#e5e5e5; margin-top:5px}"+
+ // "ul.tabs li.last{margin-right:0;}"+
+   "ul.tabs li.active{background-color:#0072bc; padding:0 5px; margin-top:5px; text-align:center; color:#fff}"+
+  "ul.tabs li.active a{color:#fff}"+*/
   ".whitebox{border:2px solid#8700EE; overflow:auto; background-color:rgba(255,215,0,0.9); border-radius:50px; padding:5%;} .cb{clear:both;}"+
   ".h{font-size:40px; margin:30px; margin-left:5px; color:white; background-color:black; text-align:center}"+
   "table, th, td{border:1px solid black;text-align:center; vertical-align:middle;} "+
-  "table{outline-color:red;outline-style:dotted;}caption{font-weight:bold;font-style:oblique;}body{margin:3px;}"+
+ // "table,td{border-color:red;border-style:groove; border-width:5px;}"+
+  "caption{font-weight:bold;font-style:oblique;}body{margin:3px;}"+
   "table.da{border-collapse:collapse;}"+
   "input[type=text],select{width:100%; padding:12px 20px; margin:8px 0; display:inline-block; border-radius:40px; box-sizing:border-box; border:2px solid red; background-color:rgba(255,129,0,.5); }"+
-  "input[type=submit]{width:25%; background-color:#4CAF50; color:#FFF; padding: 14px 20px; margin:8px 0; display:block; border:none; border-radius:50px; cursor:pointer; margin:auto; transition:width 1s ease,border-radius 1s ease;}"+
-  "input[type=submit]:focus, input[type=submit]:hover{width:100%;background-color:#FCA050; border-radius:40px; }"+
+  "input[type=submit]{width:25%; background-color:#4CAF50; color:#FFF; padding: 15px 20px; margin:8px 0; display:block; border:none; border-radius:50px; cursor:pointer; margin:auto; transition:width 1s ease,border-radius 1s ease;}"+
+  "input[type=submit]:focus, input[type=submit]:hover{width:80%;background-color:#FCA050; border-radius:40px; }"+
   "div#Iform{ width:100%; background-color:rgba(255,215,0,1); padding:40px; border-radius:80px; position:relative; border:2px solid aqua;} "+
   "input:focus{background-color:lightblue;} input[type=checkbox]{display:inline-block; width:20%; float:right; position:absolute; right:10px;}"+
   "p.inp{border:2px solid red; border-radius:40px; padding:12px 20px; margin:8px 0;}"+
-  "div#p{padding:12px 20px; border:2px solid blue; border-radius:40px; background-color:lightgreen;}"+
+  "div#p{padding:12px 20px; border:2px solid blue;  background-color:lightgreen; margin-top:45px;}"+
+//  "@media only screen and (max-width:499px){div#Iform{width:50%;} .bluetab{width:100%; height:auto; position:relative;} .whitebox, div#p{margin-left:0;}}"+
+//  "@media only screen and (min-width:500px) and (max-width:599px){div#Iform{width:80%;} .bluetab{ padding:0;} .whitebox, div#p{margin-left:62px;}}"+
+//  "@media only screen and (min-width:600px) and (max-width:699px){div#Iform{width:70%;} .bluetab{} .whitebox, div#p{margin-left:92px;}}"+
+//  "@media only screen and (min-width:700px) and (max-width:899px){div#Iform{width:60%;} .bluetab{} .whitebox, div#p{margin-left:105px;}}"+
   "body,div,p,table,tr,th,td{color:black;} "+
   ".bu{background-color:#7636f4; color:white; padding:15px ; text-align:center; text-decoration:none; display:inline-block; font-size:16px;}"+
   ".bl{display:block;} #f{position:fixed; right:0; top:0; width:40px; -webkit-transition:width 2s;transition:width 2s;}"+
   "#f:hover{width:210px; border:1px solid green; z-index:2;} #f button{width:100%; height:50px; overflow:hidden;white-space:nowrap;}"+
-  ".Varga_Chart, .fl{float:left; margin:10px;}"+
+  ".Varga_Chart, .fl{float:left; margin:1px;} .fr{float:right; margin:2px;}"+
   ".Varga_Chart table{height:200px !important; width:200px !important;}"+
   ".Varga_Chart table td{width:50px !important;}"+
   "#wb_style12{display:none;} #inputtable td{width:50%;border:5px groove magenta; padding:3px;text-align:justify;}#inputtable{border-collapse:collapse; margin:5px;}"+
@@ -338,6 +364,7 @@ tt4=this.yoga_cur1-Math.floor(this.yoga_cur1)
   ".sidenav{height:100%;width:200px;background-color:#fff;position:fixed !important;z-index:5;overflow:auto; border:2px solid green;}"+
   "@media only screen and (max-width:991px){.sidenav.collap{display:none}.whit{background-color:rgb(255,255,255) !important;} .main{margin-left:0 !important}}"+
   "@media only screen and (min-width:991px){.sidenav.collap{display:block !important}}"+
+  "@media only screen and (max-width:550px){ div#pm input.pt{transform:rotate(-90deg);}}"+
   "@media only print{.sidenav{display:none !important; width:0 !important;} .main{margin-left:0 !important; width:100% !important;}}"+
   ".animate-left{position:relative; -webkit-animation:animateleft 0.4s;animation:animateleft 0.4s}"+
   "@-webkit-keyframes animateleft{from{left:-300px;opacity:0} to{left:0;opacity:1}}"+
@@ -351,90 +378,117 @@ tt4=this.yoga_cur1-Math.floor(this.yoga_cur1)
   ".sidenav a:hover{background-color:#ccc}"+
   ".sidenav a.active{background-color:blue;color:#fff}"+
   ".whit{color:black !important; background-color:rgba(77,77,77,0.2);}"+
-  ".teal{color:#fff !important;background-color:#009688 !important}"+
+  ".teal{color:#fff !important;background-color:rgba(0,150,136,.45) !important}"+
   ".xlarge{font-size:24px !important}"+
   "a{-webkit-tap-highlight-color:transparent; background-color:transparent; font-weight:inherit; color:inherit;}"+
-  "a:active,a:hover{outline:0} .w3-top{position:absolute;z-index:1; }"+
+  "a:active,a:hover{outline:0} .w3-top{position:fixed;z-index:1;top:0;width:100%; }"+
   ".w3-overlay{position:fixed; display:none; width:100%; height:100%; top:0; left:0; right:0; bottom:0; background-color:rgba(0,0,0,0.5); z-index:2}"+
   ".card-2{box-shadow:0 2px 4px 0 rgba(0,0,0,0.16),0 2px 10px 0 rgba(0,0,0,0.12) !important}"+
   "h2{text-align:center;}"+  
-  ".bfl:hover{box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)} .bfl,#f{-webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;} .bfl{display:inline-block; text-align:center; color:#fff; background-color:red; overflow:hidden; z-index:3; padding:0; border-radius:50%; cursor:pointer; font-size:24px} .bfl{width:56px; height:56px; line-height:56px}"+
-  "</style><b> (in JD Format) &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;   </b>"+jd2+"<br/></br>";
- this.html += this.rasiHTML+ "\n<br/><b>वार </b>" + this.vara_name +
-    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[vara_enter]+"-"+formatTimeSS(this.sunrise) +
-    "\n<b> तक:</b>" + week_days[this.vara_exit]+ "-"+formatTimeSS(this.sunrise_next) +
+  ".bfl:hover{box-shadow:0 8px 16px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19)} .bfl,#f{-webkit-touch-callout:none; -webkit-user-select:none; -khtml-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;} .bfl{display:inline-block; text-align:center; color:#fff; background-color:red; overflow:hidden; z-index:3; padding:0; border-radius:50%; cursor:pointer; font-size:24px} .bfl{width:56px; height:56px; line-height:56px} div#pm input.pt{display:inline-block; width:60px;} input.pt {background-color: #FCA050; /* Green */border: 1px solid red;color: white; padding: 15px 0;text-align: center;text-decoration: none;display: inline-block;font-size: 16px; border-radius:12px; margin:0;} input#q{padding:12px 32px;} input.pt:hover{background-color:#4CAF50}"+
+  ".pA {width: auto;margin-bottom: 5px;text-align: center;border:1px solid #C6C6C6 !important;overflow: visible !important;position: relative;padding: 10px 10px;border-radius: 10px 10px 10px 10px;box-shadow: 0 0 10px #008811 inset;}.pA:hover {box-shadow: 0 0 20px #880088 inset;}"+
+  
+  
+  "</style><div class='fl'><div class='pA'>";
+ this.html += this.rasiHTML+ "\n</div><div class='pA'><br/><b>वार </b>" + this.vara_name +
+    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[vara_enter]+"-"+fTs(this.sunrise) +
+    "\n<b> तक:</b>" + week_days[this.vara_exit]+ "-"+fTs(this.sunrise_next) +
     "\n<br/>"+
-    "\n<br/><b>नक्षत्र </b>" + "(" + this.nakshatra_cur.toFixed() +") "+  this.nakshatra_name +"<b>  व्यतीत </b>"+toDeg2(this.nakshatra_cur1-Math.floor(this.nakshatra_cur1))+ "   "+ju2time(tt1)+
-    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>"+ju2time((m2j(this.nakshatra_exit)-m2j(this.nakshatra_enter)))+"  ("+toDeg2((m2j(this.nakshatra_exit)-m2j(this.nakshatra_enter)))+")"+
-    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[this.nakshatra_enter.getDay()]+ "-"+formatTimeSS(this.nakshatra_enter) +
-    "\n<b> तक:</b>" + week_days[this.nakshatra_exit.getDay()]+ "-"+formatTimeSS(this.nakshatra_exit) +
+    "\n</div><div class='pA'><br/><b>नक्षत्र </b>" + "(" + tF(this.nakshatra_cur+1) +") "+  this.nakshatra_name +"<b>  व्यतीत </b>"+tD2(this.nakshatra_cur1-Math.floor(this.nakshatra_cur1))+ "   "+ju2time(tt1)+
+    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>"+ju2time((m2j(this.nakshatra_exit)-m2j(this.nakshatra_enter)))+"  ("+tD2((m2j(this.nakshatra_exit)-m2j(this.nakshatra_enter)))+")"+
+    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[this.nakshatra_enter.getDay()]+ "-"+fTs(this.nakshatra_enter) +
+    "\n<b> तक:</b>" + week_days[this.nakshatra_exit.getDay()]+ "-"+fTs(this.nakshatra_exit) +
     "\n<br/>"+
-    "\n<br/><b>तिथि </b>" + " ("+this.tithi_cur.toFixed()+") "+this.tithi_name+"<b>  व्यतीत </b>"+toDeg2(this.tithi_cur1-Math.floor(this.tithi_cur1)) +"    "+ju2time(tt2)+
-    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>" + ju2time((m2j(this.tithi_exit)-m2j(this.tithi_enter)))+ "  ("+toDeg2((m2j(this.tithi_exit)-m2j(this.tithi_enter)))+")"+
-    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[this.tithi_enter.getDay()]+ "-"+formatTimeSS(this.tithi_enter) +
-    "\n<b> तक:</b>" + week_days[this.tithi_exit.getDay()]+ "-"+formatTimeSS(this.tithi_exit) +
+    "\n</div><div class='pA'><br/><b>तिथि </b>" + " ("+tF(this.tithi_cur+1)+") "+this.tithi_name+"<b>  व्यतीत </b>"+tD2(this.tithi_cur1-Math.floor(this.tithi_cur1)) +"    "+ju2time(tt2)+
+    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>" + ju2time((m2j(this.tithi_exit)-m2j(this.tithi_enter)))+ "  ("+tD2((m2j(this.tithi_exit)-m2j(this.tithi_enter)))+")"+
+    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[this.tithi_enter.getDay()]+ "-"+fTs(this.tithi_enter) +
+    "\n<b> तक:</b>" + week_days[this.tithi_exit.getDay()]+ "-"+fTs(this.tithi_exit) +
     "\n<br/>"+
-    "\n<br/><b>करण </b>" + " ("+this.karana_cur.toFixed()+") "+this.karana_name+"<b>  व्यतीत </b>"+toDeg2(this.karana_cur1-Math.floor(this.karana_cur1)) +"   "+ju2time(tt3)+
-    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>" + ju2time((m2j(this.karana_exit)-m2j(this.karana_enter)))+ "  ("+toDeg2((m2j(this.karana_exit)-m2j(this.karana_enter)))+")"+
-    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[this.karana_enter.getDay()]+ "-"+formatTimeSS(this.karana_enter) +
-    "\n<b> तक:</b>" + week_days[this.karana_exit.getDay()]+ "-"+formatTimeSS(this.karana_exit) +
+    "\n</div><div class='pA'><br/><b>करण </b>" + " ("+tF(this.karana_cur+1)+") "+this.karana_name+"<b>  व्यतीत </b>"+tD2(this.karana_cur1-Math.floor(this.karana_cur1)) +"   "+ju2time(tt3)+
+    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>" + ju2time((m2j(this.karana_exit)-m2j(this.karana_enter)))+ "  ("+tD2((m2j(this.karana_exit)-m2j(this.karana_enter)))+")"+
+    "\n<br/><b>&nbsp;&nbsp; से:</b>" + week_days[this.karana_enter.getDay()]+ "-"+fTs(this.karana_enter) +
+    "\n<b> तक:</b>" + week_days[this.karana_exit.getDay()]+ "-"+fTs(this.karana_exit) +
     "\n<br/>"+
-    "\n<br/><b>योग </b>" + " ("+this.yoga_cur.toFixed()+") "+this.yoga_name+"<b>  व्यतीत </b>"+toDeg2(this.yoga_cur1-Math.floor(this.yoga_cur1)) +"    "+ju2time(tt4)+
-    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>" + ju2time((m2j(this.yoga_exit)-m2j(this.yoga_enter)))+ "  ("+toDeg2((m2j(this.yoga_exit)-m2j(this.yoga_enter)))+")"+
-    "\n<br/><b>&nbsp;&nbsp; से:</b>" +  week_days[this.yoga_enter.getDay()]+"-"+formatTimeSS(this.yoga_enter) +
-    "\n<b> तक:</b>" + week_days[this.yoga_exit.getDay()]+ "-"+formatTimeSS(this.yoga_exit) +
-    "\n<br/>"+
-    "\n<br/><b>संवत्सर उत्तर भारत </b>"+this.sSamvatsara
+    "\n</div><div class='pA'><br/><b>योग </b>" + " ("+tF(this.yoga_cur+1)+") "+this.yoga_name+"<b>  व्यतीत </b>"+tD2(this.yoga_cur1-Math.floor(this.yoga_cur1)) +"    "+ju2time(tt4)+
+    "\n<br/><b>&nbsp;&nbsp; कुल समय:</b>" + ju2time((m2j(this.yoga_exit)-m2j(this.yoga_enter)))+ "  ("+tD2((m2j(this.yoga_exit)-m2j(this.yoga_enter)))+")"+
+    "\n<br/><b>&nbsp;&nbsp; से:</b>" +  week_days[this.yoga_enter.getDay()]+"-"+fTs(this.yoga_enter) +
+    "\n<b> तक:</b>" + week_days[this.yoga_exit.getDay()]+ "-"+fTs(this.yoga_exit) +
+    "\n<br/></div></div>"+
+	"<div class='fl pA'><table>"+
+	 "<tr><td>Bhaava Lagna</td><td>"+tF(bhaavlagn,3)+"</td><td>"+tSd(bhaavlagn)+"</td></tr>"+
+	 "<tr><td>Hora Lagna</td><td>"+tF(horalagn,3)+"</td><td>"+tSd(horalagn)+"</td></tr>"+
+	 "<tr><td>Ghati Lagna</td><td>"+tF(ghatilagn,3)+"</td><td>"+tSd(ghatilagn)+"</td></tr>"+
+	 "<tr><td>Vighati Lagna</td><td>"+tF(vighatilagn,3)+"</td><td>"+tSd(vighatilagn)+"</td></tr>"+
+	 "<tr><td>Sree Lagna</td><td>"+tF(sreelagn,3)+"</td><td>"+tSd(sreelagn)+"</td></tr>"+
+	 "<tr><td>Varanda Lagna</td><td>"+tF(Varandalagn,3)+"</td><td>"+tSd(Varandalagn)+"</td></tr>"+
+	 "<tr><td>Dhuma</td><td>"+tF(Dhuma,3)+"</td><td>"+tSd(Dhuma)+"</td></tr>"+
+	 "<tr><td>Vyatipata</td><td>"+tF(Vyatipata,3)+"</td><td>"+tSd(Vyatipata)+"</td></tr>"+
+	 "<tr><td>Parivesha</td><td>"+tF(Parivesha,3)+"</td><td>"+tSd(Parivesha)+"</td></tr>"+
+	 "<tr><td>Chapa</td><td>"+tF(Chapa,3)+"</td><td>"+tSd(Chapa)+"</td></tr>"+
+	 "<tr><td>Upaketu</td><td>"+tF(Upketu,3)+"</td><td>"+tSd(Upketu)+"</td></tr>"+
+	 "<tr><td>Mandi</td><td>"+tF(Maandi,3)+"</td><td>"+tSd(Maandi)+"</td></tr>"+
+	 "<tr><td>Kaala</td><td>"+tF(Kaala,3)+"</td><td>"+tSd(Kaala)+"</td></tr>"+
+	 "<tr><td>Mrityu</td><td>"+tF(Mrityu,3)+"</td><td>"+tSd(Mrityu)+"</td></tr>"+
+	 "<tr><td>ArdhaPrahar</td><td>"+tF(ArdhaPrahar,3)+"</td><td>"+tSd(ArdhaPrahar)+"</td></tr>"+
+	 "<tr><td>YamaGhantak</td><td>"+tF(YamaGhantak,3)+"</td><td>"+tSd(YamaGhantak)+"</td></tr>"+
+	 "<tr><td>Gulika</td><td>"+tF(Gulika,3)+"</td><td>"+tSd(Gulika)+"</td></tr>"+
+	"</table></div><p class='cb' />"+
+    "\n<div class='pA'><b>संवत्सर उत्तर भारत </b>"+this.sSamvatsara
  + "\n<br/><b>संवत्सर दक्षिण भारत </b>"+this.sSamvatsaras
  + "\n<br/><b>सौर मास </b>"+this.sSauraMaasa
  + "\n<br/><b>सक्रांति </b>"+this.samkranti
- + "\n<br/><b> चंद्रमास </b>"+this.adhimasa+" "+this.chandramasa+" "+tithi[parseInt(tithi0)]
+ + "\n<br/><b> चंद्रमास </b>"+this.adhimasa+" "+this.chandramasa+" "+tithi[pI(tithi0)]+" ( विक्रम सम्वत "+this.vikramayear+") ( शक "+this.sakayear+" )"
  + "\n<br/><b> अन्य </b>"+this.comm+" "
- + "\n<br/><br/><b> सूर्योदय:</b>" + formatTimeSS(this.sunrise)+
-    "\n<br/><b> मध्याह्न(अभिजित):</b>" + formatTimeSS(this.noon)+
-    "\n<br/><b> सूर्यास्त:</b>" + formatTimeSS(this.sunset)+
+ + "\n</div><div class='pA'><br/><b> सूर्योदय:</b>" + fTs(this.sunrise)+
+    "\n<br/><b> मध्याह्न(अभिजित):</b>" + fTs(this.noon)+
+    "\n<br/><b> सूर्यास्त:</b>" + fTs(this.sunset)+
     "\n<br/><b> अयनांश:</b>" ;
- this.html +=(this.AscData.Ayanamsa<0)?"-"+toDeg((this.AscData.Ayanamsa*-1)):toDeg((this.AscData.Ayanamsa));
+ this.html +=(this.AscData.Ayanamsa<0)?"-"+tD((this.AscData.Ayanamsa*-1)):tD((this.AscData.Ayanamsa));
     
- this.html +="\n<br/><b> दिनमान:</b>" + toDeg(m2j(this.sunset)-m2j(this.sunrise))+"  ("+ju2time(m2j(this.sunset)-m2j(this.sunrise))+")"+   "\n<br/><b> रात्रिमान:</b>" + toDeg(m2j(this.sunrise_next)-m2j(this.sunset))+"  ("+ju2time(m2j(this.sunrise_next)-m2j(this.sunset))+")"
- this.html+= "<table><tr><th>ग्रह</th><th> राशि अंश&#176 कला&#8217 विकला&#8221</th><th>भाव</th><th>देशा॰</th><th>गति</th><th>नक्षत्र</th></tr>";
+ this.html +="\n<br/><b> दिनमान:</b>" + tD(m2j(this.sunset)-m2j(this.sunrise))+"  ("+ju2time(m2j(this.sunset)-m2j(this.sunrise))+")"+   "\n<br/><b> रात्रिमान:</b>" + tD(m2j(this.sunrise_next)-m2j(this.sunset))+"  ("+ju2time(m2j(this.sunrise_next)-m2j(this.sunset))+")</div>"
+ this.html+= "<div class='pA'><table><tr><th>ग्रह</th><th> राशि अंश&#176 कला&#8217 विकला&#8221</th><th>भाव</th><th>देशा॰</th><th>गति</th><th>नक्षत्र</th></tr>";
  for(i=0;i<10;++i){
   if (i>=8){
-   this.html+= "<tr><td><b>"+chart[i].text+"(व)"+chart[i].retro+chart[i].sleep+"</b></td><td align='right'>" +toSignDeg((chart[i].long))+ "</td><td align='right'> ("+(chart[i].bhava)+")</td><td align='right'>"+toDeg(chart[i].long)+"</td><td align='right'>-3&#8217 11&#8221 </td><td align='right'>"+nakshatra[parseInt(getNaks(chart[i].long,1))]+"</td></tr>";
+   this.html+= "<tr><td><b>"+chart[i].text+"(व)"+chart[i].retro+chart[i].sleep+"</b></td><td align='right'>" +tSd((chart[i].long))+ "</td><td align='right'> ("+(chart[i].bhava)+")</td><td align='right'>"+tD(chart[i].long)+"</td><td align='right'>-3&#8217 11&#8221 </td><td align='right'>"+nakshatra[pI(getNaks(chart[i].long,1))]+"</td></tr>";
   }else{
-   this.html+= "<tr><td><b>"+chart[i].text+chart[i].retro+chart[i].sleep+"</b></td><td align='right'>" +toSignDeg(chart[i].long)+ "</td><td align='right'> ("+(chart[i].bhava)+")</td><td align='right'>"+toDeg(chart[i].long)+"</td><td align='right'>"+((chart[i].speed)*day*60).toFixed(0)+"&#8217 "+ ((((chart[i].speed)*day*60)-Math.floor(((chart[i].speed)*day*60)))*60).toFixed(0)+"&#8221 </td><td align='right'>"+nakshatra[parseInt(getNaks(chart[i].long,1))]+"</td></tr>";
+   this.html+= "<tr><td><b>"+chart[i].text+chart[i].retro+chart[i].sleep+"</b></td><td align='right'>" +tSd(chart[i].long)+ "</td><td align='right'> ("+(chart[i].bhava)+")</td><td align='right'>"+tD(chart[i].long)+"</td><td align='right'>"+tF(((chart[i].speed)*day*60),0)+"&#8217 "+ tF(((((chart[i].speed)*day*60)-Math.floor(((chart[i].speed)*day*60)))*60),0)+"&#8221 </td><td align='right'>"+nakshatra[pI(getNaks(chart[i].long,1))]+"</td></tr>";
   }
  }
  this.html +="</tr></table>"+""
-this.html +="</div><div class='whitebox' id='wb_style3' style='display:none;'>"// ///////////////////////////////
- this.html +="\n<br/><b>मांदि दिन समय और जगह:</b>"+formatTimeSS(this.MaandiDayTime)+ " - " + toSignDeg(this.MaandiDay.Ascendant)+"\n<br/><b>मांदि रात्रि समय और जगह:</b>"+formatTimeSS(this.MaandiNightTime)+ " - " + toSignDeg(this.MaandiNight.Ascendant)+"\n<br/><br/><div class='fl'>"+this.kaalatable.html+ "\n<br/></div><div class='fl'>"+this.horatable.html+"\n<br/></div><div class='fl'>"+this.muhurthatable.html+"</div><p class='cb' > </p>"
+ this.html +="</div><div class='pA'><table><tr><td>palnet</td><td>longitude</td><td>lon speed</td><td>latitude</td><td>lat speed</td><td>distance</td><td>dist speed</td></tr>";
+for(i=0;i<7;i++){
+this.html +="<tr><td>"+graha[i]+"</td><td>"+tF((this.grahas.gr[i][5]+this.AscData.Ayanamsa),3)+"</td><td>"+tF((this.grahas.speed[i]*day),3)+"</td><td>"+tF(this.grahas.gr[i][6],3)+"</td><td>"+tF(((this.grahas.grn[i][6]-this.grahas.gr[i][6])),3)+"</td><td>"+tF(this.grahas.gr[i][9],4)+"</td><td>"+tF(((this.grahas.grn[i][9]-this.grahas.gr[i][9])),6)+"</td></tr>"
+} 
+this.html+="</table>" 
+this.html +="</div></div><div class='whitebox pA' id='wb_style3' style='display:none;'>"// ///////////////////////////////
+ this.html +="\n<div class='pA'><b>मांदि दिन समय और जगह:</b>"+fTs(this.MaandiDayTime)+ " - " + tSd(this.MaandiDay.Ascendant)+"\n<br/><b>मांदि रात्रि समय और जगह:</b>"+fTs(this.MaandiNightTime)+ " - " + tSd(this.MaandiNight.Ascendant)+"\n<br/></div><div class='fl pA'>"+this.kaalatable.html+ "\n<br/></div><div class='fl pA'>"+this.horatable.html+"\n<br/></div><div class='fl pA'>"+this.muhurthatable.html+"</div><p class='cb' > </p>"
     
-this.html+="</div><div class='whitebox' id='wb_style4' style='display:none;'>"
+this.html+="</div><div class='whitebox pA' id='wb_style4' style='display:none;'>"
  this.html+=writeVargaChart().html+"<p class='cb'/>"+"" 
 
-this.html+="</div><div class='whitebox' id='wb_style5' style='display:none;'>"
- this.html+="\n<br/>"+pha().html+"<p class='cb'/>"+""
+this.html+="</div><div class='whitebox pA' id='wb_style5' style='display:none;'>"
+ this.html+=pha().html+"<p class='cb'/>"+""
 
-this.html+="</div><div class='whitebox' id='wb_style6' style='display:none;'>"
+this.html+="</div><div class='whitebox pA' id='wb_style6' style='display:none;'>"
  this.html+=writeAshtakVarga().html+"<p class='cb'/>"
  
-this.html+="</div><div class='whitebox' id='wb_style7' style='display:none;'>"
- this.html+=writeVimsottariDasa(date_time).html+"\n</p></p>"+writeAshtottariDasa().html+"<p class='cb'/>";
+this.html+="</div><div class='whitebox pA' id='wb_style7' style='display:none;'>"
+ this.html+=writeVimsottariDasa(date_time).html+"\n"+writeAshtottariDasa().html+"<p class='cb'/>";
  
-this.html+="</div><div class='whitebox' id='wb_style8' style='display:none;'>"
+this.html+="</div><div class='whitebox pA' id='wb_style8' style='display:none;'>"
  this.html+=writeVimsopakBala().html+"<p class='cb'/>" ;
  
-this.html+="</div><div class='whitebox' id='wb_style9' style='display:none;'>" 
+this.html+="</div><div class='whitebox pA' id='wb_style9' style='display:none;'>" 
  this.html+=writeCharaKarakas().html+"<p class='cb'/>";
  
-this.html+="</div><div class='whitebox' id='wb_style10' style='display:none;'>" 
+this.html+="</div><div class='whitebox pA' id='wb_style10' style='display:none;'>" 
  this.html+=writeSudarshanChkra().html+"<p class='cb'/>";
  
-this.html+="</div><div class='whitebox' id='wb_style11' style='display:none;'>" 
+this.html+="</div><div class='whitebox pA' id='wb_style11' style='display:none;'>" 
 this.html+=writeSarvatoBhadra().html+"<p class='cb'/>"
 
-this.html+="</div><div class='whitebox' id='wb_style1' style='display:none;'>" 
- this.html+=writeBhaavaChalit().html+"<p class='cb'/></div></br>"
+this.html+="</div><div class='whitebox pA' id='wb_style1' style='display:none;'>" 
+ this.html+=writeBhaavaChalit().html+"<p class='cb'/></div>"
  return this;
  
 }
@@ -476,7 +530,7 @@ function calcVimsottariDasa(date){
  moon=grahas.grahas[1];e=[];f=[];g=[];
  d=new Date(date)
  temp=moon/(360/27)//calculation of current Nakshatra
- temp2=dasa[(parseInt(temp)+7)%9];//Ashvini nakshatra have dasa of ketu and so on --ketu-on-2-6-2016
+ temp2=dasa[(pI(temp)+7)%9];//Ashvini nakshatra have dasa of ketu and so on --ketu-on-2-6-2016
  balance=(1-frac(temp))*temp2.d//balance of total dasa remaining in years.frac
  e[0]=d.toString();f[0]=temp2.l
  g[0]=balance;
@@ -568,7 +622,7 @@ function calcVimsottariDasa_pratyantr(d,d1,d2,n,n2){
 }
 function writeVimsottariDasa(date){
  t=calcVimsottariDasa(date);this.html="";ett=[];etl=[];etp=[];
- this.html+="</br><table class='da'><caption>Vimsottari Dasa</caption><th>MahaDasa</th><th>Duration(From)</th>"
+ this.html+="<div class='pA'><table class='da'><caption>Vimsottari Dasa</caption><th>MahaDasa</th><th>Duration(From)</th>"
   
   for(r=0;r<10;r++){
    etl[r]=calcVimsottariDasa_Antar(date,t.e[r],r).el;
@@ -578,7 +632,7 @@ function writeVimsottariDasa(date){
   e2t2=[];e2t=[];
  
  for(i=0;i<10;i++){
-  this.html+="<tr class='mahadasa' style=' cursor:pointer' onclick=toggleclassdisplay(&#39;antrdasa"+i+"&#39;)><td>"+t.f[i]+"</td><td>"+t.e[i].replace("GMT+0530 (India Standard Time)","")+"</td></tr>"
+  this.html+="<tr class='mahadasa' style=' cursor:pointer' onclick=tCd(&#39;antrdasa"+i+"&#39;)><td>"+t.f[i]+"</td><td>"+t.e[i].replace("GMT+0530 (India Standard Time)","")+"</td></tr>"
   //this.html+="&nbsp;<th>AntarDasaLord</th><th>Duration(From)</th>"
   for(j=0;j<10;j++){
    if(etp[i][j]==0 || j==9){
@@ -590,7 +644,7 @@ function writeVimsottariDasa(date){
   this.html+="";
  }
   
-  this.html+="</table>"
+  this.html+="</table></div>"
  return this;
 }
 function writePratyantrDasa(i,j){
@@ -599,7 +653,7 @@ function writePratyantrDasa(i,j){
  teee.innerHTML=calcVimsottariDasa_pratyantr(date_time,ett[i][0],ett[i][j],i,j).html
  document.getElementsByClassName("antrdasa"+i)[j].appendChild(teee)
  }else{
- toggledisplay("pratya"+i+j)
+ tgD("pratya"+i+j)
  }
 }
 //Astottari Dasa Calculations 
@@ -643,9 +697,8 @@ function getNaks(l,b){
 function getNaksLen(l){
  return red_a(getCorrNaksLen(l),nl)
 }
-
 function calcAstottariM_dasa(){
- m=getNaks(grahas.grahas[1],0);s=parseInt(m)-5;if(s<0)s+=28;
+ m=getNaks(grahas.grahas[1],0);s=pI(m)-5;if(s<0)s+=28;
  n=getNaksLen(grahas.grahas[1])/nl
  if(s<4){  i=0;p=(s+n)/4;
  }else if(s<7){  i=1;p=(s-4+n)/3;
@@ -731,9 +784,9 @@ function writeAshtottariDasa(){
   etj2[r]=calcAstottariA_dasa(r).ej2;
  }
  
- this.html="<table class='da'><caption>Ashtottari Dasa</caption><th>Mahadasa</th><th>Duration(From)</th>"
+ this.html="<div class='pA'><table class='da'><caption>Ashtottari Dasa</caption><th>Mahadasa</th><th>Duration(From)</th>"
  for(i=0;i<8;i++){
-  this.html+="<tr class='Amdasa' style=' cursor:pointer' onclick=toggleclassdisplay(&#39;Aadasa"+i+"&#39;)><td>"+t0.l[i]+"</td><td>"+t0.d2[i]+"</td></tr>"
+  this.html+="<tr class='Amdasa' style=' cursor:pointer' onclick=tCd(&#39;Aadasa"+i+"&#39;)><td>"+t0.l[i]+"</td><td>"+t0.d2[i]+"</td></tr>"
   for(j=0;j<9;j++){
    this.html+="<tr class='Aadasa"+i+"' style='display:none'" 
    this.html+=(j!=8)?"onclick='wAp("+i+","+j+")'":""
@@ -741,7 +794,7 @@ function writeAshtottariDasa(){
   }
  }
    
- this.html+="</table>"
+ this.html+="</table></div>"
  return this;
 }
 function wAp(i,j){
@@ -749,7 +802,7 @@ function wAp(i,j){
  teee2=document.createElement("tbody");teee2.id=("Apdasa"+i+j);
  teee2.innerHTML=calcAstottariN_dasa(etj2[i][j],etj2[i][j+1],etl2[i][j]).html;document.getElementsByClassName("Aadasa"+i)[j].appendChild(teee2);
  }else{
- toggledisplay("Apdasa"+i+j);
+ tgD("Apdasa"+i+j);
  }
 }
 //Shodash vargas calculations
@@ -847,7 +900,7 @@ function vargaChart(d,e){
  }else {
  s=d;
  }
- a="<div class='Varga_Chart'>";
+ a="<div class='Varga_Chart pA'>";
  a=a+"<table>";
  a=a+"  <tr>";
  a=a+"    <td id=12 align=center>"+s[12]+"<font color='red'>12</font></td>";
@@ -857,7 +910,7 @@ function vargaChart(d,e){
  a=a+"    </tr>";
  a=a+"  <tr>";
  a=a+"    <td id=11 align=center>"+s[11]+"<font color='red'>11</font> </td>";
- a=a+"    <td width=100 colspan=2 rowspan=2 id=0 align=center><font size='4px'><b>"
+ a=a+"    <td colspan=2 rowspan=2 id=0 align=center><font size='4px'><b>"
  a+=(typeof(e)=='number')?"d-"+e:e
  a=a+"</b></font> </td>";
  a=a+"    <td id=4 align=center>"+s[4]+"<font color='red'>4</font> </td>";
@@ -878,7 +931,7 @@ function vargaChart(d,e){
  
 }
 function writeVargaChart(){//<!-- <font color=blue>Blue are the Rasi </font><font color=red>Red are the Bhaava</font> -->
- this.html="\n<br/><br/><div id='vargas'>"
+ this.html="<div id='vargas'>"
  for(w=0;w<varga20.length;w++){
   this.html+=vargaChart(vargas(varga20[w]),varga20[w]).html
  }
@@ -889,11 +942,11 @@ function writeVargaChart(){//<!-- <font color=blue>Blue are the Rasi </font><fon
 function writeBhaavaChalit(){
  n=['सू','चं','मं','बु','बृ','शु','श','रा','ल','के'];
  nbc=AscData.BhaavaSandhi;nbc2=[];bc2=[];nbc3=[];bc3=[];g=grahas.grahas;
- bc=AscData.BhaavaMadya;bb="<div class='fl'><table>";
+ bc=AscData.BhaavaMadya;bb="<div class='fl pA'><table>";
  bb+="<tr><th>Bhaava</th><th colspan=2>Bhaava Arambha</th><th colspan=2>Bhaava Madhya</th></tr><tr><th></th><th>Rasi</th><th>Nakshatra</th><th>Rasi</th><th>Nakshatra</th></tr>"
  for(i=0;i<12;i++){
  nbc[i]%=360;bc[i]%=360;
-  bb+="<tr><td>"+i+1+"</td><td>"+toSignDeg(nbc[(i+11)%12])+"</td><td>"+nakshatra[naks(nbc[(i+11)%12])]+"</td><td>"+toSignDeg(bc[i])+"</td><td>"+nakshatra[naks(bc[i])]+"</td></tr>";
+  bb+="<tr><td>"+i+1+"</td><td>"+tSd(nbc[(i+11)%12])+"</td><td>"+nakshatra[naks(nbc[(i+11)%12])]+"</td><td>"+tSd(bc[i])+"</td><td>"+nakshatra[naks(bc[i])]+"</td></tr>";
  };bb+="</table></div>";
  for(i=0;i<g.length;i++){
   for(j=0;j<bc.length;j++){
@@ -921,7 +974,7 @@ function writeBhaavaChalit(){
 //calculation of Sudarshan Chakra
 function writeSudarshanChkra(){
  n=['सू','चं','मं','बु','बृ','शु','श','रा','ल','के']
- var a="";
+ var a="<style> table.sC#O td{height:200px;width:200px} table.sC#M td{height:100px;width:100px} table.sC#I td{height:50px;width:50px}</style>";
  var k=0;
  var i=0;
  d=vargas(1);
@@ -943,58 +996,23 @@ function writeSudarshanChkra(){
  abS=[];//Surya based
  for(i=0;i<13;i++){if(s[i].search("सू")!=-1){ qq=i}}for(l=1;l<13;l++){abS[l]=("<font color=blue>"+qq+"</font>&nbsp;"+s[qq]+"&nbsp;"); ++qq;if(qq>12)qq=1;}
  
- a+="<table class=sC cellspacing=0 cellpadding=1 > <tr height=200>"
- a+="<td width=200>"+abS[12]+"</td>"
- a+="<td width=200>"+abS[1]+"</td>"
- a+="<td width=200>"+abS[2]+"</td>"
- a+="<td width=200>"+abS[3]+"</td>"
- a+="</tr> <tr height=200> "
- a+="<td width=200>"+abS[11]+"</td>"
- a+="<td width=200 colspan=2 rowspan=2 ><table class=sC cellspacing=0 cellpadding=1 ><tr height=100>"
- a+="<td width=100>"+abC[12]+"</td>"
- a+="<td width=100>"+abC[1]+"</td>"
- a+="<td width=100>"+abC[2]+"</td>"
- a+="<td width=100>"+abC[3]+"</td>"
- a+="</tr> <tr height=100> "
- a+="<td width=100>"+abC[11]+"</td>"
- a+="<td width=200 colspan=2 rowspan=2><table class=sC cellspacing=0 cellpadding=1><tr height=50>"
- a+="<td width=50>"+abL[12]+"</td>"
- a+="<td width=50>"+abL[1]+"</td>"
- a+="<td width=50>"+abL[2]+"</td>"
- a+="<td width=50>"+abL[3]+"</td>"
- a+="</tr><tr height=50>"
- a+="<td width=50>"+abL[11]+"</td>"
- a+="<td class=Tl width=100 colspan=2 rowspan=2><b>Sudarshan Chakra</b></td>"
- a+="<td width=50>"+abL[4]+"</td>"
- a+="</tr><tr height=50>"
- a+="<td width=50>"+abL[10]+"</td>"
- a+="<td width=50>"+abL[5]+"</td>"
- a+="</tr><tr height=50>"
- a+="<td width=50>"+abL[9]+"</td>"
- a+="<td width=50>"+abL[8]+"</td>"
- a+="<td width=50>"+abL[7]+"</td>"
- a+="<td width=50>"+abL[6]+"</td>"
- a+="</tr></table></td>"
- a+="<td width=100>"+abC[4]+"</td>"
- a+="</tr><tr height=100>"
- a+="<td width=100>"+abC[10]+"</td>"
- a+="<td width=100>"+abC[5]+"</td>"
- a+="</tr><tr height=100>"
- a+="<td width=100>"+abC[9]+"</td>"
- a+="<td width=100>"+abC[8]+"</td>"
- a+="<td width=100>"+abC[7]+"</td>"
- a+="<td width=100>"+abC[6]+"</td>"
- a+="</tr></table></td>"
- a+="<td width=200>"+abS[4]+"</td>"
- a+="</tr><tr height=200>"
- a+="<td width=200>"+abS[10]+"</td>"
- a+="<td width=200>"+abS[5]+"</td>"
- a+="</tr><tr height=200>"
- a+="<td width=200>"+abS[9]+"</td>"
- a+="<td width=200>"+abS[8]+"</td>"
- a+="<td width=200>"+abS[7]+"</td>"
- a+="<td width=200>"+abS[6]+"</td>"
- a+="</tr></table>";this.html=a; this.apl=s
+ a+="<div class='pA'><table class=sC id=O><tr>"
+ +"<td>"+abS[12]+"</td><td>"+abS[1]+"</td><td>"+abS[2]+"</td><td>"+abS[3]+"</td>"
+ +"</tr><tr><td>"+abS[11]+"</td>"
+ +"<td colspan=2 rowspan=2 ><table class=sC id=M><tr>"
+ +"<td>"+abC[12]+"</td><td>"+abC[1]+"</td><td>"+abC[2]+"</td><td>"+abC[3]+"</td>"
+ +"</tr><tr><td>"+abC[11]+"</td>"
+ +"<td colspan=2 rowspan=2><table class=sC id=I><tr>"
+ +"<td>"+abL[12]+"</td><td>"+abL[1]+"</td><td>"+abL[2]+"</td><td>"+abL[3]+"</td>"
+ +"</tr><tr><td>"+abL[11]+"</td>"
+ +"<td class=Tl colspan=2 rowspan=2><b>Sudarshan Chakra</b></td>"
+ +"<td>"+abL[4]+"</td></tr><tr><td>"+abL[10]+"</td><td>"+abL[5]+"</td>"
+ +"</tr><tr><td>"+abL[9]+"</td><td>"+abL[8]+"</td><td>"+abL[7]+"</td><td>"+abL[6]+"</td>"
+ +"</tr></table></td><td>"+abC[4]+"</td></tr><tr><td>"+abC[10]+"</td><td>"+abC[5]+"</td>"
+ +"</tr><tr><td>"+abC[9]+"</td><td>"+abC[8]+"</td><td>"+abC[7]+"</td><td>"+abC[6]+"</td>"
+ +"</tr></table></td><td>"+abS[4]+"</td></tr><tr><td>"+abS[10]+"</td><td>"+abS[5]+"</td>"
+ +"</tr><tr><td>"+abS[9]+"</td><td>"+abS[8]+"</td><td>"+abS[7]+"</td><td>"+abS[6]+"</td>"
+ +"</tr></table></div>";this.html=a; this.apl=s
  return this;
  
 }
@@ -1002,7 +1020,7 @@ function writeSudarshanChkra(){
 function writeSarvatoBhadra(){
  g=grahas.grahas;gn=[];n=['सू','चं','मं','बु','बृ','शु','श','रा','ल','के'];
  s=new Array(27);a="";a2="";a3="";
- for(i=0;i<10;i++)gn[i]=parseInt(getNaks(g[i],0));
+ for(i=0;i<10;i++)gn[i]=pI(getNaks(g[i],0));
  for(i=0;i<10;i++){'Aswi',
   k=gn[i];
   s[k]=(s[k]=="")?" ":s[k]+" "+n[i];
@@ -1016,7 +1034,7 @@ function writeSarvatoBhadra(){
  na=['Aswi','Bhar','Krit','Rohi','Mrig','Ardr','Puna','Push','Asle','Magh','PPha','Upha','Hast','Chit','Swat','Vish','Anu','Jye','Mool','PSha','Usha','Abhi','Srav','Dhan','Sata','PBha','UBha','Reva'];
  y=[0,9,17,15,3,6,11,27,18,21,24]
  b=['Janma','Karma','Samudayika','Sanghatika','Jaati','Naidhana','Desa','Abhisheka','Aadhaana','Vainasika','Maanasa']
- a+="<div class='fl'><table class='sbha'>"
+ a+="<div class='fl pA'><table class='sbha'>"
  a+="<tr><td>"+u('ii',3)+"</td><td>"+u('Dhan',5)+"<br />"+u(s[23],0)+"</td><td>"+u('Sata',5)+"<br />"+u(s[24],0)+"</td><td>"+u('PBha',5)+"<br />"+u(s[25],0)+"</td><td>"+u('UBha',5)+"<br />"+u(s[26],0)+"</td><td>"+u('Reva',5)+"<br />"+u(s[27],0)+"</td><td>"+u('Aswi',5)+"<br />"+u(s[0],0)+"</td><td>"+u('Bhar',5)+"<br />"+u(s[1],0)+"</td><td>"+u('a',3)+"</td></tr>"
  a+="<tr><td>"+u('Srav',5)+"<br />"+u(s[22],0)+"</td><td>"+u('rii',3)+"</td><td>"+u('g',6)+"</td><td>"+u('s',6)+"</td><td>"+u('d',6)+"</td><td>"+u('ch',6)+"</td><td>"+u('l',6)+"</td><td>"+u('u',3)+"</td><td>"+u('Krit',5)+"<br />"+u(s[2],0)+"</td></tr>"
  a+="<tr><td>"+u('Abhi',5)+"<br />"+u(s[21],0)+"</td><td>"+u('kh',6)+"</td><td>"+u('ai',3)+"</td><td>"+u('Kumbh',1)+"</td><td>"+u('Meen',1)+"</td><td>"+u('Mesh',1)+"</td><td>"+u('lu',3)+"</td><td>"+u('a',6)+"</td><td>"+u('Rohi',5)+"<br />"+u(s[3],0)+"</td></tr>"
@@ -1026,8 +1044,8 @@ function writeSarvatoBhadra(){
  a+="<tr><td>"+u('Jye',5)+"<br />"+u(s[17],0)+"</td><td>"+u('n',6)+"</td><td>"+u('e',3)+"</td><td>"+u('Tula',1)+"</td><td>"+u('Kanya',1)+"</td><td>"+u('Simh',1)+"</td><td>"+u('luu',3)+"</td><td>"+u('d',6)+"</td><td>"+u('push',5)+"<br />"+u(s[7],0)+"</td></tr>"
  a+="<tr><td>"+u('Anu',5)+"<br />"+u(s[16],0)+"</td><td>"+u('ri',3)+"</td><td>"+u('t',6)+"</td><td>"+u('r',6)+"</td><td>"+u('p',6)+"</td><td>"+u('t~',6)+"</td><td>"+u('m',6)+"</td><td>"+u('uu',3)+"</td><td>"+u('Asle',5)+"<br />"+u(s[8],0)+"</td></tr>"
  a+="<tr><td>"+u('i',3)+"</td><td>"+u('Vish',5)+"<br />"+u(s[15],0)+"</td><td>"+u('Swat',5)+"<br />"+u(s[14],0)+"</td><td>"+u('Chit',5)+"<br />"+u(s[13],0)+"</td><td>"+u('Hast',5)+"<br />"+u(s[12],0)+"</td><td>"+u('Upha',5)+"<br />"+u(s[11],0)+"</td><td>"+u('PPha',5)+"<br />"+u(s[10],0)+"</td><td>"+u('Magh',5)+"<br />"+u(s[9],0)+"</td><td>"+u('aa',3)+"</td></tr>"
- a+="</table></br></div>"
- a+="<div class=fl><table><th>"+u('Nakshatra',0)+"</th><th>"+u('From Moon',0)+"</th><th>"+u('From Lagn',0)+"</th>"
+ a+="</table></div>"
+ a+="<div class='fl pA'><table><th>"+u('Nakshatra',0)+"</th><th>"+u('From Moon',0)+"</th><th>"+u('From Lagn',0)+"</th>"
  for(i=0;i<11;i++){
   a+="<tr><td>"+u(b[i],1)+"</td><td>"+u(na[red_a(gn[1]+y[i],28)],5)+"</td><td>"+u(na[red_a(gn[8]+y[i],28)],5)+"</td></tr>"
  }
@@ -1165,7 +1183,7 @@ function calcVimsopakaBala(){
 }
 function writeVimsopakBala(){
  calcVimsopakaBala();
- this.html="<table><caption>Varga Viswa</caption>"
+ this.html="<div class='pA'><table><caption>Varga Viswa</caption>"
  this.html+="<th></th>"
  for(a=0;a<20;a++){
  this.html+="<th>d-"+varga20[a]+"</th>"
@@ -1179,13 +1197,13 @@ function writeVimsopakBala(){
  }
  this.html+="</table>"
  
- this.html+="</br><table><caption>Vimsopak Bala</caption>"
+ this.html+="</div><div class='pA'><table><caption>Vimsopak Bala</caption>"
  this.html+="<th></th><th>Shad_varga</th><th>Sapta_varga</th><th>Dasa_varga</th><th>Shodasa_varga</th><th>Average</th><th>Percentage</th>"
  for(a=0;a<7;a++){
-  this.html+="<tr><td>"+graha[a]+"</td><td>"+vimsopakaBalaplanet[0][a].toFixed(2)+"</td><td>"+vimsopakaBalaplanet[1][a].toFixed(2)+"</td><td>"+vimsopakaBalaplanet[2][a].toFixed(2)+
-  "</td><td>"+vimsopakaBalaplanet[3][a].toFixed(2)+"</td><td>"+avgVimsopakaBala[a].toFixed(2)+"</td><td>"+perc[a].toFixed(2)+"%</td></tr>"
+  this.html+="<tr><td>"+graha[a]+"</td><td>"+tF(vimsopakaBalaplanet[0][a],2)+"</td><td>"+tF(vimsopakaBalaplanet[1][a],2)+"</td><td>"+tF(vimsopakaBalaplanet[2][a],2)+
+  "</td><td>"+tF(vimsopakaBalaplanet[3][a],2)+"</td><td>"+tF(avgVimsopakaBala[a],2)+"</td><td>"+tF(perc[a],2)+"%</td></tr>"
  }
- this.html+="</table>"
+ this.html+="</table></div>"
  return this;
 }
 function isEnemy(a,b){
@@ -1234,10 +1252,10 @@ function longativity(){
  }
  pp[7]=grahas.grahas[7];pp[8]=grahas.grahas[8];
  for(i=0;i<7;i++){
-  if(parseInt(pp[i]==exaltation[i])){
+  if(pI(pp[i]==exaltation[i])){
    age+=max[i];
   }
-  else if(parseInt(pp[i]==debilitation[i])){
+  else if(pI(pp[i]==debilitation[i])){
    age+=min[i];
   }
   else{
@@ -1414,7 +1432,7 @@ ekadhi =[[],[],[],[],[],[],[],[]];
  g=['सू','चं','मं','बु','गु','शु','श','ल','सर्व']
  this.html=''
  //Rekha
- this.html+="<div ><br/><div class='fl'><table ><caption>Rekha</caption>"
+ this.html+="<div><div class='fl pA'><table ><caption>Rekha</caption>"
  this.html+="<th></th><th>मे</th><th>वृ</th><th>मि</th><th>क</th><th>सिं</th><th>क</th><th>तु</th><th>वृ</th><th>ध</th><th>म</th><th>कु</th><th>मी</th>"
  for(i=0;i<8;i++){
  this.html+="<tr><td>"+g[i]+"</td>"
@@ -1432,7 +1450,7 @@ ekadhi =[[],[],[],[],[],[],[],[]];
  }
   this.html+="</tr></table></div >"
  //Trikona
- this.html+="<div class='fl'><table ><caption>Trikona</caption>"
+ this.html+="<div class='fl pA'><table ><caption>Trikona</caption>"
  this.html+="<th></th><th>मे</th><th>वृ</th><th>मि</th><th>क</th><th>सिं</th><th>क</th><th>तु</th><th>वृ</th><th>ध</th><th>म</th><th>कु</th><th>मी</th>"
  for(i=0;i<8;i++){
  this.html+="<tr><td>"+g[i]+"</td>"
@@ -1450,7 +1468,7 @@ ekadhi =[[],[],[],[],[],[],[],[]];
  }
   this.html+="</tr></table></div >"
  //Ekadhi
- this.html+="<div class='fl'><table ><caption>Ekadhi</caption>"
+ this.html+="<div class='fl pA'><table ><caption>Ekadhi</caption>"
  this.html+="<th></th><th>मे</th><th>वृ</th><th>मि</th><th>क</th><th>सिं</th><th>क</th><th>तु</th><th>वृ</th><th>ध</th><th>म</th><th>कु</th><th>मी</th>"
  for(i=0;i<8;i++){
  this.html+="<tr><td>"+g[i]+"</td>"
@@ -1468,12 +1486,12 @@ ekadhi =[[],[],[],[],[],[],[],[]];
  }
   this.html+="</tr></table></div >"
  //Pinda
- this.html+="<div class='fl'><table><caption>Pinda</caption>"
+ this.html+="<div class='fl pA'><table><caption>Pinda</caption>"
  this.html+="<th>Planet</th><th>Rasi</th><th>Graha</th><th>Shodhya</th>"
  for(i=0;i<8;i++){
   this.html+="<tr><td>"+g[i]+"</td><td>"+rasiPinda[i]+"</td><td>"+grahaPinda[i]+"</td><td>"+yogaPinda[i]+"</td></tr>"
  }
- this.html+="</table></div ><p style=''><br /></div>" 
+ this.html+="</table></div></div>" 
   
  agee=0;
  for(i=0;i<8;i++){
@@ -1490,11 +1508,10 @@ ekadhi =[[],[],[],[],[],[],[],[]];
   }
  }
  agee=(agee/2)
- agee2=parseInt(agee/365.25)+" year "+agee%365.25+" days";
+ agee2=pI(agee/365.25)+" year "+agee%365.25+" days";
   
  return this;
 }
-
 function getSingleRekha(i,j,k){
  
  rekha_map=
@@ -1618,7 +1635,6 @@ function calcRekha2(){i1=new Array(8);
  }
  //return rekha
 }
-
 function calcSarva(){
  sarvaRekha=[];sarvaTrikona=[];sarvaEkadhi=[];sarvaRekha2=[];sarvaTrikona2=[];sarvaEkadhi2=[];psarvaRekha=[];psarvaTrikona=[];psarvaEkadhi=[];
  for ( i = 0; i < 12; i++ ) sarvaRekha[i] = sarvaTrikona[i] = sarvaEkadhi[i] =sarvaRekha2[i] = sarvaTrikona2[i] = sarvaEkadhi2[i] = 0;
@@ -1710,8 +1726,7 @@ function calcEkadhipatyaPair2(r1,r2){
   ekadhi[i][r2]=Math.max(0,((pNumber[r2]==1)?trikona[i][r2]:(trikona[i][r2]-Math.min(trikona[i][r1],trikona[i][r2]))))
  } 
 }
-function calcEkadhipatyaShodana()
-{
+function calcEkadhipatyaShodana(){
  
  // calculate number of planets in rasi
  for ( i = 0; i < 7; i++ ) {planetNumber[getRasi(grahas.grahas[i])]++;pNumber[getRasi(grahas.grahas[i])]=1;}
@@ -1910,26 +1925,26 @@ function calcPinda(){
  }
  function writeCharaKarakas(){
   calcCharaKarakas();
-  this.html="<div class='fl'><table><caption>Chara Karakas</caption><th>Karaka</th><th>Planet</th>"
+  this.html="<div class='fl pA'><table><caption>Chara Karakas</caption><th>Karaka</th><th>Planet</th>"
   for(i=0;i<8;i++){
    this.html+="<tr><td>"+chara_karaka_name[i]+"</td><td>"+chart[chara_karaka[i]+1].text+"</td></tr>"
   }
   this.html+="</table></div>"
   calcnodeStrength();cp=[];
-  this.html+="<div class='fl'><br/><table><caption>Stronger Planet</caption><th>Pair</th><th>Stronger</th>"
+  this.html+="<div class='fl pA'><table><caption>Stronger Planet</caption><th>Pair</th><th>Stronger</th>"
   this.html+="<tr><td>Rahu/Saturn</td><td>"
   this.html+=(RstS)?"Rahu":"Saturn"
   this.html+="</td></tr><tr><td>Ketu/Mars</td><td>"
   this.html+=(KstM)?"Ketu":"Mars"
   this.html+="</td></tr></table></div>"
   for(i=0;i<12;i++){cp[i]=calcPada(i)};
-  this.html+="<div class='fl'><br/><table><caption>Arudha Padas</caption><th>Bhava</th><th>Rasi</th>"
+  this.html+="<div class='fl pA'><table><caption>Arudha Padas</caption><th>Bhava</th><th>Rasi</th>"
   for(i=0;i<12;i++){
    this.html+="<tr><td>"+padZero(i+1)+"</td><td>"+cp[i]+"</td></tr>"
   }
   this.html+="</table></div>"
   calcJYear();
-  this.html+="<div class='fl'><br/><table><caption>Jamini Dasa</caption><th>Rasi</th><th>Years</th>"
+  this.html+="<div class='fl pA'><table><caption>Jamini Dasa</caption><th>Rasi</th><th>Years</th>"
   for(i=0;i<12;i++){
    this.html+="<tr><td>"+asRashi[i].f+"</td><td>"+rY[i]+"</td></tr>"
   }
@@ -1938,41 +1953,21 @@ function calcPinda(){
  } 
  
 //general functions
- function change_tabs(b, a, d, e) {
-  for (var c = 1; c <= a; c++) {
-   if (c == d) {
-    di(b + c).className = "active";
-    di(b + "_style" + c).style.display = "block";
-    if (e) {
-     di(b + "_arrow" + c).className = "pointer_bottom"
-    }
-   } else {
-    di(b + c).className = "";
-    di(b + "_style" + c).style.display = "none";
-    if (e) {
-     di(b + "_arrow" + c).className = "no-bg"
-    }
-   }
-  };
-  w3_close();
- }
- function adddiv(t){
- d=document.createElement("div");d.innerHTML=t;
- document.body.appendChild(d);
- }
- function di(t){
- return document.getElementById( t )
- }
- function toggleclassdisplay(b){
-  a=document.getElementsByClassName(b);
-  for(i=0;i<a.length;i++){
-   if(a[i].style.display=="none") 
-    a[i].style.display = "table-row"
-   else 
-    a[i].style.display = "none"
-  }
- }
- function toggledisplay(b){
+ function change_tabs(b,a,d,e){
+  for(var c=1; c<=a;c++){
+   if (c==d){di(b+c).className="active";di(b+"_style"+c).style.display ="block";
+    if(e){di(b +"_arrow"+c).className="pointer_bottom"}
+   }else{di(b+c).className = "";di(b + "_style" + c).style.display = "none";
+	if(e){di(b+"_arrow" +c).className="no-bg"}}};w3_close();}
+ function adddiv(r,t){d=document.createElement(r);d.innerHTML=t;document.body.appendChild(d)}
+ function di(t){return document.getElementById(t)}
+ function tF(t,y){return t.toFixed(y)}
+ function pI(t){return parseInt(t)}
+ function tCd(b){
+  a=document.getElementsByClassName(b);for(i=0;i<a.length;i++){
+   if(a[i].style.display=="none"){a[i].style.display = "table-row"}
+   else{a[i].style.display = "none"}}}
+ function tgD(b){
   a=di(b);
   if(a.style.display=="none") a.style.display="table-row"
   else a.style.display="none"
@@ -1999,17 +1994,14 @@ function calcPinda(){
   return(getRasi(g)%3==2)?true:false;
  } 
  function getRasi(gra){
-  return parseInt(reddeg(gra)/30)
+  return pI(reddeg(gra)/30)
  }
-
  function Bhaava(gra){
-  return  (parseInt(gra/30)-parseInt(grahas.grahas[8]/30)+12)%12
+  return  (pI(gra/30)-pI(grahas.grahas[8]/30)+12)%12
  }
- 
  function naks(gra){
-  return parseInt(gra/(40/3))%27
+  return pI(gra/(40/3))%27
  }
- 
  function plh(house){
  count=0;
  for(i=0;i<7;i++){
@@ -2017,34 +2009,27 @@ function calcPinda(){
   }
  return count
  }
- 
  function isBeneficmoon(gra){
   ang=grahas.grahas[1]-grahas.grahas[0]
   if(ang<180||(ang>120 && ang<240)){
    c=1
   };return c
  }
- 
  function isPlanetInKendra(gra){
   if (gra%3===0)return true
  }
- 
  function isPlanetInPanaphara(gra){
   if (gra%3===1)return true
  }
- 
  function isPlanetInApoklima(gra){
   if (gra%3===2)return true
  }
- 
  function isPlanetInMovableRasi(gra){
   if (gra%3===0)return true
  }
- 
  function isPlanetInFixedRasi(gra){
   if (gra%3===1)return true
  }
- 
  function isPlanetInDualRasi(gra){
   if (gra%3===1)return true
  }
@@ -2105,15 +2090,12 @@ function distin(s){
   y=s.filter(function(itm,i,a){return a.indexOf(itm)===i} )
   return y.length
  }
- 
  function red12(g){//redefining in rasis
  return (g%12)>=0?(g%12):((g%12)+12);
  }
- 
  function reddeg(g){//redefining in degrees
   return g%360>=0?(g%360):((g%360)+360);
  }
- 
  function red_a(g,a){
   return (g%a)>=0?(g%a):((g%a)+a)
  }
@@ -2123,18 +2105,15 @@ function distin(s){
  l=red12(s+g);
  return asRashi[l].n;
  }
- 
  function isPlanetInHouse(g,a){//check whether a planet in a particular house
   //s=lordOf(gra);
   s2=Bhaava(grahas.grahas[g]);
   if(a===s2){ return true}
   return false
  }
- 
  function getLord(g){//get lord of a rasi (input is rasi no.-1)
   return asRashi[g].n
  }
- 
  function getGrahaDrishti(g,a){
   if(a===6) return true;//||a==-6
   else if (g===2 && (a===-5 ||a===-9||a===8||a===3)) return true;//mars -g=2 drishti 4 and 8
@@ -2142,27 +2121,23 @@ function distin(s){
   else if (g===6 && (a===-3 ||a===-10||a===9||a===2)) return true;//saturn -g=6 drishti 3 and 10
   else return false;
  }
- 
  function isGrahaDrishti(g,a,b){
   d=red12(b-a);
   //if(d<0)d=12+red12(a-b);//;
   return getGrahaDrishti(g,d);
  }
- 
-  function c3(a,b,c){//check whether three values are same
+ function c3(a,b,c){//check whether three values are same
   if (a==b && a==c){
    return true
   }
   return false
  }
-
  function c4(a,b,c,d){//check whether four values are same
   if (a==b && a==c && a==d){
    return true
   }
   return false
  }
- 
  function pha(){g=grahas.grahas
  surya=getRasi(g[0]);suryab=Bhaava(g[0]);
  chandra=getRasi(g[1]);chandrab=Bhaava(g[1]);chandran=naks(g[1])
@@ -2180,7 +2155,7 @@ function distin(s){
 //10ascedentMantreshwar
  {'group':'Ascendant','rule':lagna==0, 'des':'Ascendant in Aries(मेष लग्न)',    'sou':'Phala Deepika', 'result':'If the Ascendant falls in Aries, the native will have round eyes. His knees will be weak and he will have aggressive temperament but he will be afraid of water. He will be active and will always be moving about. His limbs will be bruised. He will eat sparigly and will be passionate. He will speak falsehoods.'},
  {'group':'Ascendant','rule':lagna==1, 'des':'Ascendant in Taurus(बृषभ लग्न)',   'sou':'Phala Deepika', 'result':'The person born with Taurus as the Ascendant, will have plumply thighs and a big face. He will be engaged in agricultural ventures. He will be happy in the middle and last portions of his life. He will be fond of enjoying young women. He will be of sacrificing and forgiving nature, will be capable of endowing hardships and will possess cattle. He will have marks or moles on the back, face and sides.'},
- {'group':'Ascendant','rule':lagna==2, 'des':'Ascendant in Gemini(मिथुन लग्न)',   'sou':'Phala Deepika', 'result':'When the Ascedant is Gemini, the native will have balck eyes and curly hair. He will enjoy association with women and will have thick neck and many friends. He will be intelligent and mind reader. His nose will be elevated and he will be fond of music and dancing. He will like to remain indoors.'},
+ {'group':'Ascendant','rule':lagna==2, 'des':'Ascendant in Gemini(मिथुन लग्न)',   'sou':'Phala Deepika', 'result':'When the Ascendant is Gemini, the native will have balck eyes and curly hair. He will enjoy association with women and will have thick neck and many friends. He will be intelligent and mind reader. His nose will be elevated and he will be fond of music and dancing. He will like to remain indoors.'},
  {'group':'Ascendant','rule':lagna==3, 'des':'Ascendant in Cancer(कर्क लग्न)',   'sou':'Phala Deepika', 'result':'Person with Cancer as the Ascendant will be henpacked. He will have a thick neck and will be fond of making friendships. He will possess many houses and will be wealthy. His waist will be thick but he will be short statured. He will be intelligent and fond of watery sports like swimming etc. He will walk fast and will have few sons. He will be crooked.'},
  {'group':'Ascendant','rule':lagna==4, 'des':'Ascendant in Leo(सिंह लग्न)',    'sou':'Phala Deepika', 'result':'A person whose Ascendant is Leo will have reddish eyes, large chin and broad face. He will be arrogant, Powerful valiant, firm minded and obedient to his mother. He will be fond of roaming about in forests and hills. He will get angry on trifles'},
  {'group':'Ascendant','rule':lagna==5, 'des':'Ascendant in Virgo(कन्या लग्न)',   'sou':'Phala Deepika', 'result':'The person born with Virgo as the Ascendant, will be truthful and will speak kindly. His eyes will be full of bashfulness and will be immediately liked by others. He will be well versed in Shastras and will take advantage of other people`s houses and wealth. His arms and shoulders will be drooped and will possess few sons.'},
@@ -3409,39 +3384,35 @@ function distin(s){
  this.html+="</table>"
  return this
  }
- 
  rad=180/Math.PI
  function j2j(JulianDay) {//20040205
   
-  j = parseInt(JulianDay) + 1402;
-  k = parseInt((j - 1) / 1461);
+  j = pI(JulianDay) + 1402;
+  k = pI((j - 1) / 1461);
   l = j - 1461 * k;
-  n = parseInt((l - 1) / 365) - parseInt(l / 1461);
+  n = pI((l - 1) / 365) - pI(l / 1461);
   i = l - 365 * n  + 30;
-  J = parseInt(80 * i / 2447) ;
-  I2 = parseInt(J / 11);
-  this.day0 = i - parseInt(2447 *J / 80);
+  J = pI(80 * i / 2447) ;
+  I2 = pI(J / 11);
+  this.day0 = i - pI(2447 *J / 80);
   this.month =  J + 2 -12 * I2;
   this.year = 4 * k + n +I2 - 4716;
   return this
  }
- 
  function j2g(JulianDay) {//20030331
-  
   a = JulianDay + 68569;
-  b = parseInt(a / 36524.25);
-  c = a - parseInt(36524.25 * b + 0.75);
-  e = parseInt((c + 1) / 365.2425);
+  b = pI(a / 36524.25);
+  c = a - pI(36524.25 * b + 0.75);
+  e = pI((c + 1) / 365.2425);
   
-  f = c - parseInt(365.25 * e) + 31;
-  g = parseInt(f / 30.59);
-  h = parseInt(g / 11);
-  this.day0 = Math.floor(f - parseInt(30.59 * g) + (JulianDay - parseInt(JulianDay)));
+  f = c - pI(365.25 * e) + 31;
+  g = pI(f / 30.59);
+  h = pI(g / 11);
+  this.day0 = Math.floor(f - pI(30.59 * g) + (JulianDay - pI(JulianDay)));
   this.month = Math.floor(g - 12 * h + 2);
   this.year = Math.floor(100 * (b - 49) + e + h);
   return this
  }
- 
  function jd2md(JulianDay) {//20030331
    
   
@@ -3469,14 +3440,12 @@ function distin(s){
    return 3 * Math.PI / 2;         // # {sin(3 pi/2)=-1}
   }
  }
- 
-function get_mean_long(ahar, rotation) {
+ function get_mean_long(ahar, rotation) {
    return 360 * frac(rotation * ahar / YCD);
 }
 function declination(long) {
    return  arcsin(Math.sin(long / rad) * Math.sin(24 / rad)) * rad;
 }
-
  function get_daylight_equation(ahar,year, loc_lat) {
   mslong = get_mean_long(ahar, 4320000);
   samslong = mslong + (54 / 3600) * (year - 499);
@@ -3487,27 +3456,23 @@ function declination(long) {
  function get_manda_equation(argument, planet) {
   return arcsin(planet / 360 * Math.sin(argument / rad)) * rad;
  }
- 
  function get_tithi(tllong, tslong) {
   elong = tllong - tslong;
   elong = fix360(elong);
   
   return elong / 12;
  }
- 
  function get_tslong(ahar) {
     mslong = get_mean_long(ahar, 4320000);
     return fix360(mslong - get_manda_equation((mslong - (77+(17/60))), (13+(50/60))));
 
  }
- 
  function get_tllong(ahar) {
  mllong = get_mean_long(ahar, 57753336);
     apogee = get_mean_long(ahar, 488203) + 90;
     return fix360(mllong - get_manda_equation((mllong - apogee), (31+(50/60))));
 
  }
- 
  function get_elong(ahar) {
   elong = Math.abs(get_tllong(ahar) - get_tslong(ahar));
   if (180 < elong) {
@@ -3515,7 +3480,6 @@ function declination(long) {
   }
         return elong;
  }
- 
  function three_relation(a, b, c) {
   if ((a < b) && (b < c)) {
   d= 1;
@@ -3526,7 +3490,6 @@ function declination(long) {
   }
  return d
  }
- 
  function find_conj(leftx, lefty, rightx, righty) {
    
   width = (rightx - leftx) / 2;
@@ -3553,11 +3516,9 @@ function declination(long) {
    }
   }
  }
- 
  function get_conj(ahar) {
   return find_conj(ahar - 2, get_elong(ahar - 2),ahar + 2, get_elong(ahar + 2));
  }
- 
  function get_clong(ahar, tithi) {
   new_new = YCD / (57753336 - 4320000);
   ahar = ahar - tithi * (new_new / 30);
@@ -3574,7 +3535,6 @@ function declination(long) {
    return back_clong;
   }
  }
- 
  function get_nclong(ahar, tithi) {
   new_new = YCD / (57753336 - 4320000);
   ahar = ahar + (30 - tithi) * (new_new / 30);
@@ -3587,7 +3547,6 @@ function declination(long) {
    return back_nclong;
   }
  }
- 
  function get_masa_num(tslong, clong) {
   masa_num = (Math.floor(tslong / 30)) % 12;
   if ((Math.floor(clong / 30) % 12) == masa_num) {
@@ -3624,13 +3583,12 @@ function declination(long) {
   } else {
    paksa = 'Suklapaksa';
   }
-  this.naksatra_name = nakshatra[parseInt(tllong*27/360)];
-  this.karana_name = karana[parseInt(tithi1*2)];
+  this.naksatra_name = nakshatra[pI(tllong*27/360)];
+  this.karana_name = karana[pI(tithi1*2)];
   this.yoga_name = yogas[Math.floor(fix360(tslong, tllong)*27/360)];
   
   return this //new Array(tithi_day0, ftithi, naksatra_name, karana_name, yoga_name);
  }
- 
  function chalit(ahar){ //////20011109
   ttahar = tithi_naksatra_karana_yoga_at_any_given_ahar(ahar);
   otithi_day =ttahar.tithi_day0
@@ -3708,268 +3666,258 @@ function next_date(d_d) {
  return ddd
 }
 function ModernDate_to_JulianDay(year, month, day) {
-    if (month < 3) {
-        year = year -1 ;
-        month = month + 12;
-    }
-
+    if (month < 3) {year = year -1 ;month = month + 12; }
     julian_day = Math.floor(365.25 * year) + Math.floor(30.59 * (month - 2)) + day + 1721086.5;
-    if (year < 0) {
-        julian_day = julian_day - 1;
-        if (((year % 4) == 0) && (3 <= month)) {
-            julian_day = julian_day + 1;
-        }
+    if (year < 0) { julian_day = julian_day - 1;
+        if (((year % 4) == 0) && (3 <= month)) {julian_day = julian_day + 1;}
     }
     if (2299160 < julian_day) {
         julian_day = julian_day + Math.floor(year / 400) - Math.floor(year / 100) + 2;
     }
-
    return julian_day;
 }
- 
-function comment(mn,ti){
-ti=Math.floor(ti);ti+=1;var ttr;//alert(ti)
+function comment(m,b){
+b=Math.floor(b+1);var T;//alert(b)
   if (adhimasa_p(clong,nclong)){
-     if (ti== 1    ) ttr="प्रतिपदा (पुरुषौत्तम मास)"
-else if (ti==11    ) ttr="पद्मिनी एकादशी"
-else if (ti==13    ) ttr="प्रदोष व्रत ।"
-else if (ti==15    ) ttr="पूर्णिमा"
-else if (ti==16    ) ttr="प्रतिपदा"
-else if (ti==26    ) ttr="पद्मा एकादशी"
-else if (ti==28    ) ttr="प्रदोष व्रत ।"
-else if (ti==30    ) ttr="अमावस्या"
-else  ttr=""
+     if (b== 1    ) T="प्रतिपदा (पुरुषौत्तम मास)"
+else if (b==11    ) T="पद्मिनी एकादशी"
+else if (b==13    ) T="प्रदोष व्रत ।"
+else if (b==15    ) T="पूर्णिमा"
+else if (b==16    ) T="प्रतिपदा"
+else if (b==26    ) T="पद्मा एकादशी"
+else if (b==28    ) T="प्रदोष व्रत ।"
+else if (b==30    ) T="अमावस्या"
+else  T=""
   }else{
-  if (mn== 0 && ti== 1) ttr="चैत्र (वासन्त) नवरात्र आरम्भ"
-else if (mn== 0 && ti== 3) ttr="गणगौरी तृतीया, श्रीमत्स्य जयन्ती।"
-else if (mn== 0 && ti== 4) ttr="दमनक चतुर्थी"
-else if (mn== 0 && ti== 5) ttr="श्री (लक्ष्मी) पंचमी"
-else if (mn== 0 && ti== 6) ttr="स्कन्द षष्ठी"
-else if (mn== 0 && ti== 8) ttr="श्रीदुर्गाष्टमी। भवान्युत्पत्ति, अशोकाष्टमी।"
-else if (mn== 0 && ti== 9) ttr="श्री रामनवमी। नवरात्र समाप्त।"
-else if (mn== 0 && ti==10) ttr="नवरात्र-पारणा।"
-else if (mn== 0 && ti==11) ttr="कामदा एकादशी व्रत।"
-else if (mn== 0 && ti==12) ttr="विष्णु द्वादशी व्रत।"
-else if (mn== 0 && ti==13) ttr="प्रदोष व्रत । अनङ्ग त्रयोदशी"
-else if (mn== 0 && ti==14) ttr=" नृसिंह  चतुर्दशी।"
-else if (mn== 0 && ti==15) ttr="चैत्र पूर्णिमा (स्नानदानादि), श्री हनुमान जयन्ती (दक्षिण भारत)। वैशाख स्नान आरम्भ।"
-else if (mn== 1 && ti==16) ttr="प्रतिपदा वैशाख कृष्ण पक्ष आरम्भ। (मधुसूदन मास)"//
-else if (mn== 1 && ti==19) ttr=" श्री गणेश चतुर्थी व्रत।सति अनसूया जयन्ती। "
-else if (mn== 1 && ti==26) ttr="वरूथिनी एकादशी व्रत। श्री वल्लभाचार्य जयन्ती। "
-else if (mn== 1 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 1 && ti==29) ttr="मासशिवरात्रि व्रत। "
-else if (mn== 1 && ti==30) ttr="अमावस्या"
-else if (mn== 1 && ti== 2) ttr="भगवान् श्रीपरशुराम जयन्ती।"
-else if (mn== 1 && ti== 3) ttr="अक्षय तृतीया।"
-else if (mn== 1 && ti== 7) ttr="श्रीगङ्गा जयन्ती।"
-else if (mn== 1 && ti== 8) ttr="श्रीबगुलामुखी जयन्ती। "
-else if (mn== 1 && ti== 9) ttr="जानकी (सीता) नवमी।"
-else if (mn== 1 && ti==11) ttr="मोहिनी एकादशी व्रत।"
-else if (mn== 1 && ti==12) ttr="रुक्मणि द्वादशी ।"
-else if (mn== 1 && ti==13) ttr="प्रदोष व्रत।"
-else if (mn== 1 && ti==15) ttr="वैशाख पूर्णिमा। बुद्ध जयन्ती।"
-else if (mn== 2 && ti==16) ttr="प्रतिपदा श्री नारद जयन्ती।(त्रिविक्रम मास)"//
-else if (mn== 2 && ti==19) ttr="श्री गणेश चतुर्थी व्रत।"
-else if (mn== 2 && ti==26) ttr="अपरा एकादशी व्रत।"
-else if (mn== 2 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 2 && ti==29) ttr="सावित्री चौदश।"
-else if (mn== 2 && ti==30) ttr="शनैश्चरी जयन्ती।वटसावित्री व्रत (अमावस्या पक्ष)।"
-else if (mn== 2 && ti== 3) ttr="रम्भा तृतीया। महाराणा प्रताप जयन्ती। उमा-अवतार।"
-else if (mn== 2 && ti== 8) ttr="अष्टमी श्रीदुर्गाष्टमी। धूमावती जयन्ती।"
-else if (mn== 2 && ti== 9) ttr="उमा ब्राह्मणी व्रत।"
-else if (mn== 2 && ti==11) ttr="निर्जला एकादशी व्रत।"
-else if (mn== 2 && ti==13) ttr="प्रदोष व्रत।"
-else if (mn== 2 && ti==15) ttr="पूर्णिमा ज्येष्ठ पूर्णिमा।"
-else if (mn== 3 && ti==16) ttr="प्रतिपदा ।(वामन मास)"//
-else if (mn== 3 && ti==26) ttr="योगिनी एकादशी व्रत"
-else if (mn== 3 && ti==28) ttr="प्रदोश व्रत"
-else if (mn== 3 && ti==30) ttr="अमावस्या"
-else if (mn== 3 && ti== 1) ttr="प्रतिपदा आषाढ़ गुप्त नवरात्र आरम्भ।"
-else if (mn== 3 && ti== 2) ttr="रथ-यात्रा (श्रीजगन्नाथपुरी),"
-else if (mn== 3 && ti== 6) ttr="स्कन्द षष्ठी।"
-else if (mn== 3 && ti== 7) ttr="विवस्वान सप्तमी।"
-else if (mn== 3 && ti== 8) ttr="श्रीदुर्गाष्टमी।"
-else if (mn== 3 && ti== 9) ttr="भढ़ली नवमी, गुप्त नवरात्र समाप्त।"
-else if (mn== 3 && ti==11) ttr="देवशयनी एकादशी व्रत।"
-else if (mn== 3 && ti==13) ttr="प्रदोष व्रत।"
-else if (mn== 3 && ti==14) ttr="कोकिला व्रत। शिव-शयनोत्सव।"
-else if (mn== 3 && ti==15) ttr="आषाढ़ी पूर्णिमा। गुरु पूर्णिमा।"
-else if (mn== 4 && ti==16) ttr="प्रतिपदा(श्रीधर मास) चातुर्मास प्रारंभ"//
-else if (mn== 4 && ti==26) ttr="कामिका एकादशी व्रत।"
-else if (mn== 4 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 4 && ti==30) ttr="हरियाली/शनिवारी अमावस्या"
-else if (mn== 4 && ti== 1) ttr="प्रतिपदा"
-else if (mn== 4 && ti== 3) ttr="मधुस्रवा-हरियाली-सिंघारा तीज।"
-else if (mn== 4 && ti== 4) ttr="दूर्वा गणपति व्रत। वरद् चतुर्थी।"
-else if (mn== 4 && ti== 5) ttr="नाग-पंचमी। श्रीकल्कि जयन्ती।"
-else if (mn== 4 && ti==11) ttr="पवित्रा एकादशी व्रत।"
-else if (mn== 4 && ti==13) ttr="प्रदोष व्रत।"
-else if (mn== 4 && ti==15) ttr="श्रावणी पूर्णिमा, रक्षा बन्धन। अथर्वेदि-ऋग्वेदि-यजु-उपाकर्म। श्रीसत्यनारायण व्रत। गायत्री जयन्ती। ऋषि-तर्पण। हयग्रीव जयन्ती।"
-else if (mn== 5 && ti==16) ttr="प्रतिपदा।(ऋषिकेश मास)"//
-else if (mn== 5 && ti==18) ttr="कज्जली तीज"
-else if (mn== 5 && ti==19) ttr="श्रीगणेश बहुला चतुर्थी व्रत।"
-else if (mn== 5 && ti==21) ttr="चन्दन षष्ठी व्रत। हल षष्ठी।"
-else if (mn== 5 && ti==22) ttr="शीतला सप्तमी।"
-else if (mn== 5 && ti==23) ttr="श्रीकृष्ण जन्माष्टमी व्रत।"
-else if (mn== 5 && ti==24) ttr="श्रीगुग्गा नवमी।नन्दोत्सव।"
-else if (mn== 5 && ti==26) ttr="अजा एकादशी व्रत।"
-else if (mn== 5 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 5 && ti==30) ttr="अमावस्या।"
-else if (mn== 5 && ti== 1) ttr="प्रतिपदा"
-else if (mn== 5 && ti== 3) ttr="हरितालिका तृतीया, गौरी तृतीया, श्रीवराह जयन्ती।"
-else if (mn== 5 && ti== 4) ttr="सिद्धि विनायक व्रत। कलंक चतुर्थी। चन्द्रदर्शन निषेध।"
-else if (mn== 5 && ti== 5) ttr="ऋषि पंचमी।"
-else if (mn== 5 && ti== 7) ttr="संतान सप्तमी व्रत।"
-else if (mn== 5 && ti== 8) ttr="श्रीराधाष्टमी। श्रीमहालक्ष्मी व्रतारम्भ।"
-else if (mn== 5 && ti== 9) ttr="श्रीचन्द नवमी(उदासीन)"
-else if (mn== 5 && ti==11) ttr="जलझूलनी एकादशी व्रत।"
-else if (mn== 5 && ti==12) ttr="श्रवण/वामन द्वादशी।"
-else if (mn== 5 && ti==13) ttr="प्रदोष व्रत। वामन जयन्ती।"
-else if (mn== 5 && ti==14) ttr="अनन्त चतुर्दशी व्रत।"
-else if (mn== 5 && ti==15) ttr="भाद्रपद पूर्णिमा।"
-else if (mn== 6 && ti==16) ttr="प्रतिपदा। श्राद्ध प्रारंभ।(पद्मनाभ मास)"//
-else if (mn== 6 && ti==26) ttr="इन्दिरा एकादशी व्रत।"
-else if (mn== 6 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 6 && ti==30) ttr="सर्वपितृ अमावस्या। पितृ विसर्जन। अमावस्या का श्राद्ध।"
-else if (mn== 6 && ti== 1) ttr="प्रतिपदा आश्विन-शरद् नवरात्र आरम्भ।"
-else if (mn== 6 && ti== 5) ttr="ललिता पंचमी।"
-else if (mn== 6 && ti==11) ttr="पापांकुशा एकादशी व्रत।"
-else if (mn== 6 && ti==12) ttr="पद्मनाभ/पापांकुशा द्वादशी"
-else if (mn== 6 && ti==13) ttr="प्रदोष व्रत"
-else if (mn== 6 && ti==15) ttr="शरद् पूर्णिमा व्रत। श्रीसत्यनारायण व्रत।"
-else if (mn== 7 && ti==16) ttr="प्रतिपदा (दामोदर मास)"//
-else if (mn== 7 && ti==19) ttr="व्रत करवाचौथ (करक-चतुर्थी)। दशरथ चतुर्थी।"
-else if (mn== 7 && ti==23) ttr="अहोई अष्टमी। दाम्पत्य अष्टमी।"
-else if (mn== 7 && ti==26) ttr="रमा एकादशी व्रत।"
-else if (mn== 7 && ti==27) ttr="गोवत्स द्वादशी।"
-else if (mn== 7 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 7 && ti==29) ttr="श्रीहनुमान जयन्ती। नरक चौदश। रूप चौदश।"
-else if (mn== 7 && ti==30) ttr="कार्तिक अमावस्या। दीपावली। श्रीमहालक्ष्मी पूजन।"
-else if (mn== 7 && ti== 1) ttr="प्रतिपदा अन्नकूट-गोवर्धन पूजा।"
-else if (mn== 7 && ti== 2) ttr="भ्रातृ-दूज। यम द्वितीया"
-else if (mn== 7 && ti== 5) ttr="जया पंचमी।"
-else if (mn== 7 && ti== 8) ttr="गोपाष्टमी।"
-else if (mn== 7 && ti== 9) ttr=" अक्षय नवमी।कूष्माण्ड नवमी।"
-else if (mn== 7 && ti==11) ttr="देवप्रबोधिनी एकादशी व्रत।तुलसी विवाह।"
-else if (mn== 7 && ti==13) ttr="प्रदोष व्रत।"
-else if (mn== 7 && ti==15) ttr="कार्तिक पूर्णिमा।"
-else if (mn== 8 && ti==16) ttr="प्रतिपदा (केशव मास)"//
-else if (mn== 8 && ti==18) ttr="सौभाग्य सुन्दरी व्रत।"
-else if (mn== 8 && ti==23) ttr="श्रीकालभैरवाष्टमी।"
-else if (mn== 8 && ti==26) ttr="उत्पन्ना एकादशी व्रत।"
-else if (mn== 8 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 8 && ti==29) ttr="श्रीबालाजी जयन्ती।"
-else if (mn== 8 && ti==30) ttr="मार्गशीर्ष अमावस्या।"
-else if (mn== 8 && ti== 1) ttr="प्रतिपदा"
-else if (mn== 8 && ti== 5) ttr="श्रीराम विवाहोत्सव। श्रीपंचमी। नाग-पंचमी।"
-else if (mn== 8 && ti== 7) ttr="मित्र (विष्णु) सप्तमी।"
-else if (mn== 8 && ti== 9) ttr="नन्दा नवमी।"
-else if (mn== 8 && ti==11) ttr="मोक्षदा एकादशी व्रत। गीता जयन्ती।"
-else if (mn== 8 && ti==12) ttr="अखण्ड द्वादशी।"
-else if (mn== 8 && ti==13) ttr="प्रदोष व्रत। अनङ्ग त्रयोदशी व्रत।"
-else if (mn== 8 && ti==15) ttr="मार्गशीर्ष पूर्णिमा। त्रिपुरभैरव जयन्ती।"
-else if (mn== 9 && ti==16) ttr="प्रतिपदा (नारायण मास)"//
-else if (mn== 9 && ti==19) ttr="अङ्गारकी श्रीगणेश चतुर्थी व्रत।"
-else if (mn== 9 && ti==23) ttr="रुक्मणी अष्टमी।"
-else if (mn== 9 && ti==26) ttr="सफला एकादशी व्रत।"
-else if (mn== 9 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn== 9 && ti==30) ttr="अमावस्या"
-else if (mn== 9 && ti== 1) ttr="प्रतिपदा"
-else if (mn== 9 && ti== 3) ttr="तृतीया गौरी पूजन।"
-else if (mn== 9 && ti== 7) ttr="मार्तण्ड सप्तमी।"
-else if (mn== 9 && ti==11) ttr="पुत्रदा एकादशी व्रत।"
-else if (mn== 9 && ti==14) ttr="श्रीशाकंभरी जयन्ती। ईशान व्रत।"
-else if (mn== 9 && ti==15) ttr="पौष पूर्णिमा। माघस्नान आरम्भ। "
-else if (mn==10 && ti==16) ttr="प्रतिपदा (माधव मास)"//
-else if (mn==10 && ti==19) ttr="सौभाग्य सुन्दरी व्रत। गौरी चतुर्थी। वक्रतुण्ड चतुर्थी।"
-else if (mn==10 && ti==26) ttr="षट्‍तिला एकादशी व्रत।"
-else if (mn==10 && ti==27) ttr="तिल द्वादशी।"
-else if (mn==10 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn==10 && ti==29) ttr="मासशिवरात्रि व्रत। तारा रात्रि।"
-else if (mn==10 && ti==30) ttr="माघ (मौनी) अमावस्या।"
-else if (mn==10 && ti== 1) ttr="प्रतिपदा।गुप्त नवरात्र आरम्भ।"
-else if (mn==10 && ti== 3) ttr="गौरी तृतीया (गोंतरी) व्रत।"
-else if (mn==10 && ti== 4) ttr="वरद (कुन्द) चतुर्थी।"
-else if (mn==10 && ti== 5) ttr="वसन्त(श्री)पंचमी।वागेश्वरी जयन्ती।"
-else if (mn==10 && ti== 6) ttr="दारिद्रहर षष्ठी व्रत।"
-else if (mn==10 && ti== 7) ttr="रथ-आरोग्य-सप्तमी।पुत्र सप्तमी व्रत। अचला-भानु सप्तमी। माधवाचार्य जयन्ती।"
-else if (mn==10 && ti== 8) ttr="भीष्माष्टमी।"
-else if (mn==10 && ti== 9) ttr="गुप्त नवरात्र समाप्त।"
-else if (mn==10 && ti==11) ttr="जया/भीमी एकादशी व्रत। "
-else if (mn==10 && ti==12) ttr="भीष्म-द्वादशी,वराह द्वादशी, तिल द्वादशी।"
-else if (mn==10 && ti==13) ttr="प्रदोष व्रत। "
-else if (mn==10 && ti==15) ttr="माघ-पूर्णिमा, माघस्नान समाप्त। श्रीललिता जयन्ती।"
-else if (mn==11 && ti==16) ttr="प्रतिपदा (गोविंद मास)"//
-else if (mn==11 && ti==26) ttr="विजया एकादशी व्रत।"
-else if (mn==11 && ti==28) ttr="प्रदोष व्रत।"
-else if (mn==11 && ti==29) ttr="शिवरात्रि।"
-else if (mn==11 && ti==30) ttr="फाल्गुन अमावस्या"
-else if (mn==11 && ti== 1) ttr="प्रतिपदा।"
-else if (mn==11 && ti== 5) ttr="पञ्चमी याज्ञवल्क्य जयन्ती।"
-else if (mn==11 && ti==10) ttr="अष्टमी होलाष्टक आरम्भ । अन्नपूर्णा अष्टमी। "
-else if (mn==11 && ti==11) ttr="आमलकी एकादशी व्रत।"
-else if (mn==11 && ti==12) ttr="गोविन्द द्वादशी।"
-else if (mn==11 && ti==13) ttr="प्रदोष व्रत।"
-else if (mn==11 && ti==15) ttr="फाल्गुन पूर्णिमा। होलिका दहन।"
-else if (mn== 0 && ti==16) ttr="प्रतिपदा। (विष्णु मास)"//
-else if (mn== 0 && ti==20) ttr="श्रीरंग पंचमी।"
-else if (mn== 0 && ti==22) ttr="शीतला सप्तमी"
-else if (mn== 0 && ti==23) ttr="शीतलाष्टमी।"
-else if (mn== 0 && ti==26) ttr="पापमोचनी एकादशी व्रत"
-else if (mn== 0 && ti==10) ttr="प्रदोष व्रत।"
-else if (mn== 0 && ti==10) ttr="चैत्र अमावस्या"
-else ttr=""
+  if (m== 0 && b== 1) T="चैत्र (वासन्त) नवरात्र आरम्भ"
+else if (m== 0 && b== 3) T="गणगौरी तृतीया, श्रीमत्स्य जयन्ती।"
+else if (m== 0 && b== 4) T="दमनक चतुर्थी"
+else if (m== 0 && b== 5) T="श्री (लक्ष्मी) पंचमी"
+else if (m== 0 && b== 6) T="स्कन्द षष्ठी"
+else if (m== 0 && b== 8) T="श्रीदुर्गाष्टमी। भवान्युत्पत्ति, अशोकाष्टमी।"
+else if (m== 0 && b== 9) T="श्री रामनवमी। नवरात्र समाप्त।"
+else if (m== 0 && b==10) T="नवरात्र-पारणा।"
+else if (m== 0 && b==11) T="कामदा एकादशी व्रत।"
+else if (m== 0 && b==12) T="विष्णु द्वादशी व्रत।"
+else if (m== 0 && b==13) T="प्रदोष व्रत । अनङ्ग त्रयोदशी"
+else if (m== 0 && b==14) T=" नृसिंह  चतुर्दशी।"
+else if (m== 0 && b==15) T="चैत्र पूर्णिमा (स्नानदानादि), श्री हनुमान जयन्ती (दक्षिण भारत)। वैशाख स्नान आरम्भ।"
+else if (m== 1 && b==16) T="प्रतिपदा वैशाख कृष्ण पक्ष आरम्भ। (मधुसूदन मास)"//
+else if (m== 1 && b==19) T=" श्री गणेश चतुर्थी व्रत।सति अनसूया जयन्ती। "
+else if (m== 1 && b==26) T="वरूथिनी एकादशी व्रत। श्री वल्लभाचार्य जयन्ती। "
+else if (m== 1 && b==28) T="प्रदोष व्रत।"
+else if (m== 1 && b==29) T="मासशिवरात्रि व्रत। "
+else if (m== 1 && b==30) T="अमावस्या"
+else if (m== 1 && b== 2) T="भगवान् श्रीपरशुराम जयन्ती।"
+else if (m== 1 && b== 3) T="अक्षय तृतीया।"
+else if (m== 1 && b== 7) T="श्रीगङ्गा जयन्ती।"
+else if (m== 1 && b== 8) T="श्रीबगुलामुखी जयन्ती। "
+else if (m== 1 && b== 9) T="जानकी (सीता) नवमी।"
+else if (m== 1 && b==11) T="मोहिनी एकादशी व्रत।"
+else if (m== 1 && b==12) T="रुक्मणि द्वादशी ।"
+else if (m== 1 && b==13) T="प्रदोष व्रत।"
+else if (m== 1 && b==15) T="वैशाख पूर्णिमा। बुद्ध जयन्ती।"
+else if (m== 2 && b==16) T="प्रतिपदा श्री नारद जयन्ती।(त्रिविक्रम मास)"//
+else if (m== 2 && b==19) T="श्री गणेश चतुर्थी व्रत।"
+else if (m== 2 && b==26) T="अपरा एकादशी व्रत।"
+else if (m== 2 && b==28) T="प्रदोष व्रत।"
+else if (m== 2 && b==29) T="सावित्री चौदश।"
+else if (m== 2 && b==30) T="शनैश्चरी जयन्ती।वटसावित्री व्रत (अमावस्या पक्ष)।"
+else if (m== 2 && b== 3) T="रम्भा तृतीया। महाराणा प्रताप जयन्ती। उमा-अवतार।"
+else if (m== 2 && b== 8) T="अष्टमी श्रीदुर्गाष्टमी। धूमावती जयन्ती।"
+else if (m== 2 && b== 9) T="उमा ब्राह्मणी व्रत।"
+else if (m== 2 && b==11) T="निर्जला एकादशी व्रत।"
+else if (m== 2 && b==13) T="प्रदोष व्रत।"
+else if (m== 2 && b==15) T="पूर्णिमा ज्येष्ठ पूर्णिमा।"
+else if (m== 3 && b==16) T="प्रतिपदा ।(वामन मास)"//
+else if (m== 3 && b==26) T="योगिनी एकादशी व्रत"
+else if (m== 3 && b==28) T="प्रदोश व्रत"
+else if (m== 3 && b==30) T="अमावस्या"
+else if (m== 3 && b== 1) T="प्रतिपदा आषाढ़ गुप्त नवरात्र आरम्भ।"
+else if (m== 3 && b== 2) T="रथ-यात्रा (श्रीजगन्नाथपुरी),"
+else if (m== 3 && b== 6) T="स्कन्द षष्ठी।"
+else if (m== 3 && b== 7) T="विवस्वान सप्तमी।"
+else if (m== 3 && b== 8) T="श्रीदुर्गाष्टमी।"
+else if (m== 3 && b== 9) T="भढ़ली नवमी, गुप्त नवरात्र समाप्त।"
+else if (m== 3 && b==11) T="देवशयनी एकादशी व्रत।"
+else if (m== 3 && b==13) T="प्रदोष व्रत।"
+else if (m== 3 && b==14) T="कोकिला व्रत। शिव-शयनोत्सव।"
+else if (m== 3 && b==15) T="आषाढ़ी पूर्णिमा। गुरु पूर्णिमा।"
+else if (m== 4 && b==16) T="प्रतिपदा(श्रीधर मास) चातुर्मास प्रारंभ"//
+else if (m== 4 && b==26) T="कामिका एकादशी व्रत।"
+else if (m== 4 && b==28) T="प्रदोष व्रत।"
+else if (m== 4 && b==30) T="हरियाली/शनिवारी अमावस्या"
+else if (m== 4 && b== 1) T="प्रतिपदा"
+else if (m== 4 && b== 3) T="मधुस्रवा-हरियाली-सिंघारा तीज।"
+else if (m== 4 && b== 4) T="दूर्वा गणपति व्रत। वरद् चतुर्थी।"
+else if (m== 4 && b== 5) T="नाग-पंचमी। श्रीकल्कि जयन्ती।"
+else if (m== 4 && b==11) T="पवित्रा एकादशी व्रत।"
+else if (m== 4 && b==13) T="प्रदोष व्रत।"
+else if (m== 4 && b==15) T="श्रावणी पूर्णिमा, रक्षा बन्धन। अथर्वेदि-ऋग्वेदि-यजु-उपाकर्म। श्रीसत्यनारायण व्रत। गायत्री जयन्ती। ऋषि-तर्पण। हयग्रीव जयन्ती।"
+else if (m== 5 && b==16) T="प्रतिपदा।(ऋषिकेश मास)"//
+else if (m== 5 && b==18) T="कज्जली तीज"
+else if (m== 5 && b==19) T="श्रीगणेश बहुला चतुर्थी व्रत।"
+else if (m== 5 && b==21) T="चन्दन षष्ठी व्रत। हल षष्ठी।"
+else if (m== 5 && b==22) T="शीतला सप्तमी।"
+else if (m== 5 && b==23) T="श्रीकृष्ण जन्माष्टमी व्रत।"
+else if (m== 5 && b==24) T="श्रीगुग्गा नवमी।नन्दोत्सव।"
+else if (m== 5 && b==26) T="अजा एकादशी व्रत।"
+else if (m== 5 && b==28) T="प्रदोष व्रत।"
+else if (m== 5 && b==30) T="अमावस्या।"
+else if (m== 5 && b== 1) T="प्रतिपदा"
+else if (m== 5 && b== 3) T="हरितालिका तृतीया, गौरी तृतीया, श्रीवराह जयन्ती।"
+else if (m== 5 && b== 4) T="सिद्धि विनायक व्रत। कलंक चतुर्थी। चन्द्रदर्शन निषेध।"
+else if (m== 5 && b== 5) T="ऋषि पंचमी।"
+else if (m== 5 && b== 7) T="संतान सप्तमी व्रत।"
+else if (m== 5 && b== 8) T="श्रीराधाष्टमी। श्रीमहालक्ष्मी व्रतारम्भ।"
+else if (m== 5 && b== 9) T="श्रीचन्द नवमी(उदासीन)"
+else if (m== 5 && b==11) T="जलझूलनी एकादशी व्रत।"
+else if (m== 5 && b==12) T="श्रवण/वामन द्वादशी।"
+else if (m== 5 && b==13) T="प्रदोष व्रत। वामन जयन्ती।"
+else if (m== 5 && b==14) T="अनन्त चतुर्दशी व्रत।"
+else if (m== 5 && b==15) T="भाद्रपद पूर्णिमा।"
+else if (m== 6 && b==16) T="प्रतिपदा। श्राद्ध प्रारंभ।(पद्मनाभ मास)"//
+else if (m== 6 && b==26) T="इन्दिरा एकादशी व्रत।"
+else if (m== 6 && b==28) T="प्रदोष व्रत।"
+else if (m== 6 && b==30) T="सर्वपितृ अमावस्या। पितृ विसर्जन। अमावस्या का श्राद्ध।"
+else if (m== 6 && b== 1) T="प्रतिपदा आश्विन-शरद् नवरात्र आरम्भ।"
+else if (m== 6 && b== 5) T="ललिता पंचमी।"
+else if (m== 6 && b==11) T="पापांकुशा एकादशी व्रत।"
+else if (m== 6 && b==12) T="पद्मनाभ/पापांकुशा द्वादशी"
+else if (m== 6 && b==13) T="प्रदोष व्रत"
+else if (m== 6 && b==15) T="शरद् पूर्णिमा व्रत। श्रीसत्यनारायण व्रत।"
+else if (m== 7 && b==16) T="प्रतिपदा (दामोदर मास)"//
+else if (m== 7 && b==19) T="व्रत करवाचौथ (करक-चतुर्थी)। दशरथ चतुर्थी।"
+else if (m== 7 && b==23) T="अहोई अष्टमी। दाम्पत्य अष्टमी।"
+else if (m== 7 && b==26) T="रमा एकादशी व्रत।"
+else if (m== 7 && b==27) T="गोवत्स द्वादशी।"
+else if (m== 7 && b==28) T="प्रदोष व्रत।"
+else if (m== 7 && b==29) T="श्रीहनुमान जयन्ती। नरक चौदश। रूप चौदश।"
+else if (m== 7 && b==30) T="कार्तिक अमावस्या। दीपावली। श्रीमहालक्ष्मी पूजन।"
+else if (m== 7 && b== 1) T="प्रतिपदा अन्नकूट-गोवर्धन पूजा।"
+else if (m== 7 && b== 2) T="भ्रातृ-दूज। यम द्वितीया"
+else if (m== 7 && b== 5) T="जया पंचमी।"
+else if (m== 7 && b== 8) T="गोपाष्टमी।"
+else if (m== 7 && b== 9) T=" अक्षय नवमी।कूष्माण्ड नवमी।"
+else if (m== 7 && b==11) T="देवप्रबोधिनी एकादशी व्रत।तुलसी विवाह।"
+else if (m== 7 && b==13) T="प्रदोष व्रत।"
+else if (m== 7 && b==15) T="कार्तिक पूर्णिमा।"
+else if (m== 8 && b==16) T="प्रतिपदा (केशव मास)"//
+else if (m== 8 && b==18) T="सौभाग्य सुन्दरी व्रत।"
+else if (m== 8 && b==23) T="श्रीकालभैरवाष्टमी।"
+else if (m== 8 && b==26) T="उत्पन्ना एकादशी व्रत।"
+else if (m== 8 && b==28) T="प्रदोष व्रत।"
+else if (m== 8 && b==29) T="श्रीबालाजी जयन्ती।"
+else if (m== 8 && b==30) T="मार्गशीर्ष अमावस्या।"
+else if (m== 8 && b== 1) T="प्रतिपदा"
+else if (m== 8 && b== 5) T="श्रीराम विवाहोत्सव। श्रीपंचमी। नाग-पंचमी।"
+else if (m== 8 && b== 7) T="मित्र (विष्णु) सप्तमी।"
+else if (m== 8 && b== 9) T="नन्दा नवमी।"
+else if (m== 8 && b==11) T="मोक्षदा एकादशी व्रत। गीता जयन्ती।"
+else if (m== 8 && b==12) T="अखण्ड द्वादशी।"
+else if (m== 8 && b==13) T="प्रदोष व्रत। अनङ्ग त्रयोदशी व्रत।"
+else if (m== 8 && b==15) T="मार्गशीर्ष पूर्णिमा। त्रिपुरभैरव जयन्ती।"
+else if (m== 9 && b==16) T="प्रतिपदा (नारायण मास)"//
+else if (m== 9 && b==19) T="अङ्गारकी श्रीगणेश चतुर्थी व्रत।"
+else if (m== 9 && b==23) T="रुक्मणी अष्टमी।"
+else if (m== 9 && b==26) T="सफला एकादशी व्रत।"
+else if (m== 9 && b==28) T="प्रदोष व्रत।"
+else if (m== 9 && b==30) T="अमावस्या"
+else if (m== 9 && b== 1) T="प्रतिपदा"
+else if (m== 9 && b== 3) T="तृतीया गौरी पूजन।"
+else if (m== 9 && b== 7) T="मार्तण्ड सप्तमी।"
+else if (m== 9 && b==11) T="पुत्रदा एकादशी व्रत।"
+else if (m== 9 && b==14) T="श्रीशाकंभरी जयन्ती। ईशान व्रत।"
+else if (m== 9 && b==15) T="पौष पूर्णिमा। माघस्नान आरम्भ। "
+else if (m==10 && b==16) T="प्रतिपदा (माधव मास)"//
+else if (m==10 && b==19) T="सौभाग्य सुन्दरी व्रत। गौरी चतुर्थी। वक्रतुण्ड चतुर्थी।"
+else if (m==10 && b==26) T="षट्‍तिला एकादशी व्रत।"
+else if (m==10 && b==27) T="तिल द्वादशी।"
+else if (m==10 && b==28) T="प्रदोष व्रत।"
+else if (m==10 && b==29) T="मासशिवरात्रि व्रत। तारा रात्रि।"
+else if (m==10 && b==30) T="माघ (मौनी) अमावस्या।"
+else if (m==10 && b== 1) T="प्रतिपदा।गुप्त नवरात्र आरम्भ।"
+else if (m==10 && b== 3) T="गौरी तृतीया (गोंतरी) व्रत।"
+else if (m==10 && b== 4) T="वरद (कुन्द) चतुर्थी।"
+else if (m==10 && b== 5) T="वसन्त(श्री)पंचमी।वागेश्वरी जयन्ती।"
+else if (m==10 && b== 6) T="दारिद्रहर षष्ठी व्रत।"
+else if (m==10 && b== 7) T="रथ-आरोग्य-सप्तमी।पुत्र सप्तमी व्रत। अचला-भानु सप्तमी। माधवाचार्य जयन्ती।"
+else if (m==10 && b== 8) T="भीष्माष्टमी।"
+else if (m==10 && b== 9) T="गुप्त नवरात्र समाप्त।"
+else if (m==10 && b==11) T="जया/भीमी एकादशी व्रत। "
+else if (m==10 && b==12) T="भीष्म-द्वादशी,वराह द्वादशी, तिल द्वादशी।"
+else if (m==10 && b==13) T="प्रदोष व्रत। "
+else if (m==10 && b==15) T="माघ-पूर्णिमा, माघस्नान समाप्त। श्रीललिता जयन्ती।"
+else if (m==11 && b==16) T="प्रतिपदा (गोविंद मास)"//
+else if (m==11 && b==26) T="विजया एकादशी व्रत।"
+else if (m==11 && b==28) T="प्रदोष व्रत।"
+else if (m==11 && b==29) T="शिवरात्रि।"
+else if (m==11 && b==30) T="फाल्गुन अमावस्या"
+else if (m==11 && b== 1) T="प्रतिपदा।"
+else if (m==11 && b== 5) T="पञ्चमी याज्ञवल्क्य जयन्ती।"
+else if (m==11 && b==10) T="अष्टमी होलाष्टक आरम्भ । अन्नपूर्णा अष्टमी। "
+else if (m==11 && b==11) T="आमलकी एकादशी व्रत।"
+else if (m==11 && b==12) T="गोविन्द द्वादशी।"
+else if (m==11 && b==13) T="प्रदोष व्रत।"
+else if (m==11 && b==15) T="फाल्गुन पूर्णिमा। होलिका दहन।"
+else if (m== 0 && b==16) T="प्रतिपदा। (विष्णु मास)"//
+else if (m== 0 && b==20) T="श्रीरंग पंचमी।"
+else if (m== 0 && b==22) T="शीतला सप्तमी"
+else if (m== 0 && b==23) T="शीतलाष्टमी।"
+else if (m== 0 && b==26) T="पापमोचनी एकादशी व्रत"
+else if (m== 0 && b==10) T="प्रदोष व्रत।"
+else if (m== 0 && b==10) T="चैत्र अमावस्या"
+else T=""
 }
-return '<font color="#FF00FF">'+ttr+'</font>';}
+return '<font color="#FF00FF">'+T+'</font>';}
 ///////////////Formats Time in HH:MM format
-function formatTime(d){ 
+function fT(d){ 
  var m =""+d.getMinutes()/100+"0000";
  var h =""+d.getHours()/100+"0000";
  return h.substr(2,2)+":"+m.substr(2,2);
 }
-function formatDateTimeZone(datetimezone)
-{
+function formatDateTimeZone(datetimezone){
  var t = new Date();
  t=datetimezone;
  var d =""+t.getDate()/100+"0000";
  var m =""+t.getMonth()/100+"0000";
  var y = t.getFullYear();
  var z=" UTC "+t.getTimezoneOffset()/60;
- return  d.substr(2,2)+m.substr(2,2)+" "+formatTimeSS(datetimezone)+z+" "+y;
+ return  d.substr(2,2)+m.substr(2,2)+" "+fTs(datetimezone)+z+" "+y;
 }
-function formatTimeSS(d){ return formatTime(d)+":"+(""+d.getSeconds()/100+"0000").substr(2,2);}
+function fTs(d){ return fT(d)+":"+(""+d.getSeconds()/100+"0000").substr(2,2);}
 ///////////////////////////////////////////////////////////////////
-function toDeg(deg){
+function tD(deg){
 if(deg<0){deg+=1}
- d = parseInt(deg+1/1800);
- m = parseInt((deg-d)*60);
+ d = pI(deg+1/1800);
+ m = pI((deg-d)*60);
  s = ((deg-d)*60-m)*60;
  if (d<10){d= "0"+d}; 
  if (m<10){m= "0"+m}; 
- s=s.toFixed(0)
+ s=tF(s,0)
  if (s<10){s= "0"+s}
- return d+"&#176 "+m+"&#8217 "+s+"&#8221 ";//+s.toFixed(0)+
+ return d+"&#176 "+m+"&#8217 "+s+"&#8221 ";//+tF(s)+
 }
-function toDeg2(deg){
+function tD2(deg){
 if(deg<0){deg+=1}
- d = parseInt(deg+1/1800);
- d2 = parseInt(deg+1/1800)%30;
- m = parseInt((deg-d)*60);
+ d = pI(deg+1/1800);
+ d2 = pI(deg+1/1800)%30;
+ m = pI((deg-d)*60);
  s = ((deg-d)*60-m)*60;
  if (d<10){d= "0"+d}; 
  if (m<10){m= "0"+m}; 
- s=s.toFixed(0)
+ s=tF(s,0)
  if (s<10){s= "0"+s}
- return d2+"&#176 "+m+"&#8217 ";//+s.toFixed(0)+
+ return d2+"&#176 "+m+"&#8217 ";//+tF(s)+
 }
 function toMinutes(deg){
 if(deg<0){deg+=1}
- m = parseInt((deg)*60);
- return m//+"&#8217 ";//+s.toFixed(0)+
-}///////////////////////////////////////////////////////////////////"
-function toSignDeg(deg){
+ m = pI((deg)*60);
+ return m//+"&#8217 ";//+tF(s)+
+}
+function tSd(deg){
     deg %= 360;
- sign = parseInt(deg/30);
+ sign = pI(deg/30);
  deg %= 30;
  if (sign==0)  sign=asRashi[0].f  ;
  if (sign==1)  sign=asRashi[1].f  ;
@@ -3983,13 +3931,12 @@ function toSignDeg(deg){
  if (sign==9)  sign=asRashi[9].f  ;
  if (sign==10)  sign=asRashi[10].f  ;
  if (sign==11)  sign=asRashi[11].f  ;
- return sign+" "+toDeg(deg);
+ return sign+" "+tD(deg);
 }
 ///////////////////////////////////////////////////////////////////
 //***** This section contains the specific code required in the sunrise/sunset
 //***** calculation.
-function dateToJul(date_time)
-{
+function DtJ(date_time){
  var d = new Date();
  d.setTime(date_time);
  d.setMonth(0);
@@ -3998,36 +3945,30 @@ function dateToJul(date_time)
  return n;
 }
 // Convert radian angle to degrees
-function radToDeg(angleRad)
-{
+function RtD(angleRad){
  return (180 * angleRad / Math.PI);
 }
 // Convert degree angle to radians
-function degToRad(angleDeg)
-{
+function DtR(angleDeg){
  return (Math.PI * angleDeg / 180);
 }
 ///////////////////////////////////////////////////////////////////
 // Returns the gamma value that is used in the calculation for the equation of time
 // and the solar declination.
-function calcGamma(julianDay)
-{
+function calcGamma(julianDay){
  return (2 * Math.PI / 365) * (julianDay - 1);
 }
 // Returns the gamma value used to calculate eq of time
 // and solar declination.
-function calcGamma2(julianDay, hour)
-{
+function calcGamma2(julianDay, hour){
  return (2 * Math.PI / 365) * (julianDay - 1 + (hour/24));
 }
 // Return the equation of time value for the given date.
-function calcEqofTime(gamma)
-{
+function calcEqofTime(gamma){
  return (229.18 * (0.000075 + 0.001868 * Math.cos(gamma) - 0.032077 * Math.sin(gamma) - 0.014615 * Math.cos(2 * gamma) - 0.040849 * Math.sin(2 * gamma)));
 }
 // Return the solar declination angle (in radians) for the given date.
-function calcSolarDec(gamma)
-{
+function calcSolarDec(gamma){
  return (0.006918 - 0.399912 * Math.cos(gamma) + 0.070257 * Math.sin(gamma) - 0.006758 * Math.cos(2 * gamma) + 0.000907 * Math.sin(2 * gamma));
 }
 ///////////////////////////////////////////////////////////////////
@@ -4035,27 +3976,24 @@ function calcSolarDec(gamma)
 // zenith angle is 90.8 degrees.
 // the reason why its not 90 degrees is because we need to account for atmoshperic
 // refraction.
-function calcHourAngle(lat, solarDec, time)
-{
- var latRad = degToRad(lat);
+function calcHourAngle(lat, solarDec, time){
+ var latRad = DtR(lat);
  if (time)   // ii true, then calculationg for sunrise
-  return (Math.acos(Math.cos(degToRad(90.833))/(Math.cos(latRad)*Math.cos(solarDec))-Math.tan(latRad) * Math.tan(solarDec)));
+  return (Math.acos(Math.cos(DtR(90.833))/(Math.cos(latRad)*Math.cos(solarDec))-Math.tan(latRad) * Math.tan(solarDec)));
  else
-  return -(Math.acos(Math.cos(degToRad(90.833))/(Math.cos(latRad)*Math.cos(solarDec))-Math.tan(latRad) * Math.tan(solarDec)));
+  return -(Math.acos(Math.cos(DtR(90.833))/(Math.cos(latRad)*Math.cos(solarDec))-Math.tan(latRad) * Math.tan(solarDec)));
 }
 // Return the length of the day in minutes.
-function calcDayLength(hourAngle)
-{
- return (2 * Math.abs(radToDeg(hourAngle))) / 15;
+function calcDayLength(hourAngle){
+ return (2 * Math.abs(RtD(hourAngle))) / 15;
 }
-function calcSunriseGMT(julDay, latitude, longitude)
-{
+function calcSunriseGMT(julDay, latitude, longitude){
  // *** First pass to approximate sunrise
  var gamma = calcGamma(julDay);
  var eqTime = calcEqofTime(gamma);
  var solarDec = calcSolarDec(gamma);
  var hourAngle = calcHourAngle(latitude, solarDec, 1);
- var delta = longitude - radToDeg(hourAngle);
+ var delta = longitude - RtD(hourAngle);
  var timeDiff = 4 * delta;
  var timeGMT = 720 + timeDiff - eqTime;
  // *** Second pass includes fractional jday in gamma calc
@@ -4063,13 +4001,12 @@ function calcSunriseGMT(julDay, latitude, longitude)
  eqTime = calcEqofTime(gamma_sunrise);
  solarDec = calcSolarDec(gamma_sunrise);
  hourAngle = calcHourAngle(latitude, solarDec, 1);
- delta = longitude - radToDeg(hourAngle);
+ delta = longitude - RtD(hourAngle);
  timeDiff = 4 * delta;
  timeGMT = 720 + timeDiff - eqTime; // in minutes
  return timeGMT;
 }
-function calcSolNoonGMT(julDay, longitude)
-{
+function calcSolNoonGMT(julDay, longitude){
  // Adds approximate fractional day to julday before calc gamma
  var gamma_solnoon = calcGamma2(julDay, 12 + (longitude/15));
  var eqTime = calcEqofTime(gamma_solnoon);
@@ -4077,14 +4014,13 @@ function calcSolNoonGMT(julDay, longitude)
  var solNoonGMT = 720 + (longitude * 4) - eqTime; // min
  return solNoonGMT;
 }
-function calcSunsetGMT(julDay, latitude, longitude)
-{
+function calcSunsetGMT(julDay, latitude, longitude){
  // First calculates sunrise and approx length of day
  var gamma = calcGamma(julDay + 1);
  var eqTime = calcEqofTime(gamma);
  var solarDec = calcSolarDec(gamma);
  var hourAngle = calcHourAngle(latitude, solarDec, 0);
- var delta = longitude - radToDeg(hourAngle);
+ var delta = longitude - RtD(hourAngle);
  var timeDiff = 4 * delta;
  var setTimeGMT = 720 + timeDiff - eqTime;
  // first pass used to include fractional day in gamma calc
@@ -4092,7 +4028,7 @@ function calcSunsetGMT(julDay, latitude, longitude)
  eqTime = calcEqofTime(gamma_sunset);
  solarDec = calcSolarDec(gamma_sunset);
  hourAngle = calcHourAngle(latitude, solarDec, 0);
- delta = longitude - radToDeg(hourAngle);
+ delta = longitude - RtD(hourAngle);
  timeDiff = 4 * delta;
  setTimeGMT = 720 + timeDiff - eqTime; // in minutes
  return setTimeGMT;
@@ -4104,8 +4040,8 @@ function getChart(chart){
  var i=0;
  var s = new Array(13);
  for(i=0;i<=9;++i){
-  k=parseInt((chart[i].long%360)/30)+1;
-  s[k]=(s[k]==""?"":s[k]+chart[i].tx+""+chart[i].sleep+""+chart[i].retro+" "+toDeg2(chart[i].long)+",<br/>");
+  k=pI((chart[i].long%360)/30)+1;
+  s[k]=(s[k]==""?"":s[k]+chart[i].tx+""+chart[i].sleep+""+chart[i].retro+" "+tD2(chart[i].long)+",<br/>");
  }
  for(i=0;i<=12;++i){
   s[i]=s[i]+"";
@@ -4137,17 +4073,16 @@ function getChart(chart){
  a=a+" </table></div>";
  return (a);
  }
-
 ///////////////////////////////////////////////////////////////////
- 
-function getKaalaTable(vara_cur,sunrise,sunset)
-{
+function getKaalaTable(vara_cur,sunrise,sunset){
  this.html="<table><tr><th>शुरु समय</th><th>राहुकाल चक्र</th><th>गुलिक चक्र</th><th>चौघड़िया चक्र</th></tr>";
  var k=0;
  var kaala = new Date();
  this.kaala_start = new Array(16);
  this.kaala_name= new Array(16);
  this.caughadia_name = new Array(16);
+ this.Gulika_name = new Array(16);
+ this.kaala_lagn = new Array(16);
 
  kaala.setTime(sunrise.getTime());
  var kaalaunit= (sunset.getTime()-sunrise.getTime())/8;
@@ -4157,9 +4092,11 @@ function getKaalaTable(vara_cur,sunrise,sunset)
   c=(i+caughadia_start[vara_cur])%7;
   this.kaala_start[k] = new Date();
   this.kaala_start[k].setTime(kaala.getTime());
+  this.kaala_lagn[k]=new calculateAscendant(new Date(this.kaala_start[k]),lat,lon).Ascendant;
   this.kaala_name[k]= graha[kaalachakra[g]];
+  this.Gulika_name[k]=GulikaChakra[(vara_cur+i)%8]
   this.caughadia_name[k] = caughadiya[c];
-  this.html+="<tr><td>"+formatTimeSS(this.kaala_start[k])+"</td><td>"+this.kaala_name[k]+"</td>"+"<td>"+GulikaChakra[(vara_cur+i)%8]+"</td>"+"<td>"+this.caughadia_name[k]+"</td>"+"</tr>";
+  this.html+="<tr><td>"+fTs(this.kaala_start[k])+"</td><td>"+this.kaala_name[k]+"</td>"+"<td>"+this.Gulika_name[k]+"</td>"+"<td>"+this.caughadia_name[k]+"</td>"+"</tr>";
   kaala.setTime(kaala.getTime()+kaalaunit);
   ++k;
  }
@@ -4171,9 +4108,10 @@ function getKaalaTable(vara_cur,sunrise,sunset)
   c=(5-i*2+caughadia_start[vara_cur]+21)%7;
   this.kaala_start[k] = new Date();
   this.kaala_start[k].setTime(kaala.getTime());
-  this.kaala_name[k]= graha[kaalachakra[g]];
+  this.kaala_lagn[k]=new calculateAscendant(new Date(this.kaala_start[k]),lat,lon).Ascendant;this.kaala_name[k]= graha[kaalachakra[g]];
+  this.Gulika_name[k]=GulikaChakra[(vara_cur+i+4)%8]
   this.caughadia_name[k] = caughadiya[c]
-  this.html+="<tr><td>"+formatTimeSS(this.kaala_start[k])+"</td><td>"+this.kaala_name[k]+"</td>"+"<td>"+GulikaChakra[(vara_cur+i+4)%8]+"</td>"+"<td>"+this.caughadia_name[k]+"</td>"+"</tr>";
+  this.html+="<tr><td>"+fTs(this.kaala_start[k])+"</td><td>"+this.kaala_name[k]+"</td>"+"<td>"+this.Gulika_name[k]+"</td>"+"<td>"+this.caughadia_name[k]+"</td>"+"</tr>";
   kaala.setTime(kaala.getTime()+kaalaunit);
   ++k;
  }
@@ -4181,8 +4119,7 @@ function getKaalaTable(vara_cur,sunrise,sunset)
  return this;
 }
 ///////////////////////////////////////////////////////////////////
-function getMuhurthaTable(sunrise,sunset)
-{
+function getMuhurthaTable(sunrise,sunset){
  this.html="<table><tr><th>मुहुर्त नक्षत्र</th><th>शुरु समय</th></tr>";
  var k=0;
  var m = new Date();
@@ -4195,7 +4132,7 @@ function getMuhurthaTable(sunrise,sunset)
   this.muhurtha_start[k] = new Date();
   this.muhurtha_start[k].setTime(m.getTime());
   this.muhurtha_name[k]= muhurtha[i];
-  this.html+="<tr><td>"+this.muhurtha_name[k]+"</td><td>"+formatTimeSS(this.muhurtha_start[k])+"</td></tr>";
+  this.html+="<tr><td>"+this.muhurtha_name[k]+"</td><td>"+fTs(this.muhurtha_start[k])+"</td></tr>";
   m.setTime(m.getTime()+muhurtha_unit);
  }
  this.html+="<tr><th colspan=2>Night Time</th></tr>"
@@ -4205,14 +4142,13 @@ function getMuhurthaTable(sunrise,sunset)
   this.muhurtha_start[k] = new Date();
   this.muhurtha_start[k].setTime(m.getTime());
   this.muhurtha_name[k]= muhurtha[i];
-  this.html+="<tr><td>"+this.muhurtha_name[k]+"</td><td>"+formatTimeSS(this.muhurtha_start[k])+"</td></tr>";
+  this.html+="<tr><td>"+this.muhurtha_name[k]+"</td><td>"+fTs(this.muhurtha_start[k])+"</td></tr>";
   m.setTime(m.getTime()+muhurtha_unit);
  }
  this.html+="</table>";
  return this;
 }
-function getHoraTable(vara_cur,sunrise,sunrise_next)
-{
+function getHoraTable(vara_cur,sunrise,sunrise_next){
  this.html="<table><tr><th>होरा</th><th>शुरु समय</th></tr>";
  var k=0;
  var m = new Date();
@@ -4225,14 +4161,13 @@ function getHoraTable(vara_cur,sunrise,sunrise_next)
   this.hora_start[k] = new Date();
   this.hora_start[k].setTime(m.getTime());
   this.hora_name[k]= hora[(i+order[vara_cur])%7];
-  this.html+="<tr><td>"+this.hora_name[k]+"</td><td>"+formatTimeSS(this.hora_start[k])+"</td></tr>";
+  this.html+="<tr><td>"+this.hora_name[k]+"</td><td>"+fTs(this.hora_start[k])+"</td></tr>";
   m.setTime(m.getTime()+hora_unit);
  }
  this.html+="</table>";
  return this;
 }
-function getBhaavaTable(sun_cur,latitude,longitude,date_time)
-{
+function getBhaavaTable(sun_cur,latitude,longitude,date_time){
  this.bhaava = new Array(12);
  var i,t,deg,sr;
  var cur_date=Date.parse(date_time);
@@ -4242,8 +4177,8 @@ function getBhaavaTable(sun_cur,latitude,longitude,date_time)
   this.bhaava[i] = new Date();
   this.bhaava[i].setTime(date_time);
   deg = delta + i*30;
-  t = calcSunriseGMT(dateToJul(cur_date),latitude,longitude+deg);
-  this.bhaava[i].setTime(parseInt(cur_date/day)*day + t*minutes+(deg)*4*minutes);
+  t = calcSunriseGMT(DtJ(cur_date),latitude,longitude+deg);
+  this.bhaava[i].setTime(pI(cur_date/day)*day + t*minutes+(deg)*4*minutes);
  }
  return this;
 }
@@ -4252,9 +4187,7 @@ zn = "AriTauGemCanLeoVirLibScoSagCapAquPis";  // Zodiac
 d2r = Math.PI/180; // degrees to radians
 r2d = 180/Math.PI; // radians to degrees
 var range = [1,12,1,31,1800,2100,0,23,0,59,0,12,0,59,0,0,0,179,0,59,0,0,0,89,0,59];
-
-function calculateAscendant(date_time,latitude,longitude)
-{
+function calculateAscendant(date_time,latitude,longitude){
  with(Math){
   var mon = date_time.getMonth()+1;
   var day = date_time.getDate();
@@ -4369,11 +4302,9 @@ function calculateAscendant(date_time,latitude,longitude)
  this.BhaavaSandhi[11] = hs[23];
 return this;
 }
-
 // Calculate the Lahiri Ayanamsa by using Erlewine Fagan-Bradley sidereal calculation
 // with correction using Lahiri 1900 value in minutes (see below)
-function calcAyanamsa(t)
-{
+function calcAyanamsa(t){
  ln = ((933060-6962911*t+7.5*t*t)/3600.0) % 360.0;  /* Mean lunar node */
  Off = (259205536.0*t+2013816.0)/3600.0;             /* Mean Sun        */
  Off = 17.23*Math.sin(d2r * ln)+1.27*Math.sin(d2r * Off)-(5025.64+1.11*t)*t;
@@ -4382,10 +4313,8 @@ function calcAyanamsa(t)
  this.node = (ln+Off+360)%360;
  return this;
 }
-
 // calculate Julian Day from Month, Day and Year
-function mdy2julian(m,d,y)
-{
+function mdy2julian(m,d,y){
  with(Math){
   im = 12 * (y + 4800) + m - 3;
   j = (2 * (im - floor(im/12) * 12) + 7 + 365 * im)/12;
@@ -4394,15 +4323,9 @@ function mdy2julian(m,d,y)
   return j-0.5;
  }
 }
-function leap_gregorian(year)
-{
-    return ((year % 4) == 0) &&
-            (!(((year % 100) == 0) && ((year % 400) != 0)));
-}
-
+function leap_gregorian(year){return ((year % 4) == 0) &&(!(((year % 100) == 0) && ((year % 400) != 0)));}
 var GREGORIAN_EPOCH = 1721425.5;
-function m2j(date_time)
-{
+function m2j(date_time){
  m=date_time.getMonth()+1;
  d=date_time.getDate();
  y=date_time.getFullYear();
@@ -4420,7 +4343,6 @@ function m2j(date_time)
            ) +
            d)+(Math.floor(sec + 60 * (min + 60 * hour) + 0.5) / 86400.0);
 }
-
 function time2jultime(d){
 t=(Math.floor(d.getSeconds() + 60 * (d.getMinutes() + 60 * d.getHours()) + 0.5) / 86400.0);
 return t
@@ -4430,7 +4352,7 @@ if(i<0){i+=1}
 ij = (i * 86400.0);
 h=Math.floor(ij/3600);
 m=Math.floor((ij/60)%60);
-s=Math.floor(ij%60);//.toFixed(3);
+s=Math.floor(ij%60);
 //ms=Math.round(((((((i*24)-h)*60)-m)*60)-s)*1000);
 if (h<10){h="0"+h}
 if (m<10){m="0"+m}
@@ -4438,13 +4360,11 @@ if (s<10){s="0"+s}
 return h+":"+m+":"+s//+"."+ms;
 }
 // keep within 360 degrees
-function fix360(v)
-{
+function fix360(v){
  if(v < 0.0)v += 360;
  if(v > 360)v -= 360;
  return v;
 }
-
 //End Code from http://www.astrojyoti.com/calculatoroflagna.htm
 
 
@@ -4453,7 +4373,7 @@ function fix360(v)
 //open source astrotool project (javascript Ephemarid) with Copyright © Ole Nielsen 2002-2005 
 //his site is www.ngc7000.org 
 
-obs={'longitude':-77.3933333333333,'latitude':23.2175}
+//obs={'longitude':-77.3933333333333,'latitude':23.2175}
 var DEG2RAD = Math.PI/180.0;
 var RAD2DEG = 180.0/Math.PI;
 function rev2(angle) {var a = rev(angle); return (a>=180 ? a-360.0 : a);} // -180<=a<180
@@ -4565,10 +4485,9 @@ function MoonPos(jday,obs) {
  var r = sdat[3]; // Earth (= Moon) distance to Sun in AU
  var R = mr/149598000; // Moon distance to Earth in AU
  var mag = 0.23 + 5*log10(r*R) + 0.026 * pa + 4.0E-9 * pa*pa*pa*pa
- return new Array(h,moondat[1],moondat[2],ra,dec,mglong, mglat, k, r, mr, mag);
+ return new Array(h,moondat[1],moondat[2],ra,dec,mglong, mglat, k, r, R, mag);
 }
 MERCURY = 3; VENUS = 5; EARTH = 2; MARS = 2; JUPITER = 4; SATURN = 6; SUN = 0; MOON = 1;
-
 // The planet object
 function planet(name,num,N,i,w,a,e,M) {
  this.name=name;
@@ -4685,8 +4604,6 @@ function helios(p,jday) {
  }
  return new Array(xh,yh,zh,r,lonecl,latecl);
 } // helios()
-
-
 function radecr(obj,sun,jday,obs) {
 // radecr returns ra, dec and earth distance
 // obj and sun comprise Heliocentric Ecliptic Rectangular Coordinates
@@ -4708,8 +4625,17 @@ function radecr(obj,sun,jday,obs) {
   return new Array(ra,dec,dist);
 } 
 //Ephemarid functions ends here
-
-
+//functions for changing date_time starts
+function seec(t){var a=new Date(di('date').value).setFullYear(di('year').value);var s=new Date(a);var w=new Date(s.setSeconds(s.getSeconds()+t));di('date').value=w.toLS();di('year').value=w.getFullYear();}
+function Mint(t){var a=new Date(di('date').value).setFullYear(di('year').value);var s=new Date(a);var w=new Date(s.setMinutes(s.getMinutes()+t));di('date').value=w.toLS();di('year').value=w.getFullYear();}
+function Hoou(t){var a=new Date(di('date').value).setFullYear(di('year').value);var s=new Date(a);var w=new Date(s.setHours(s.getHours()+t));di('date').value=w.toLS();di('year').value=w.getFullYear();}
+function Datt(t){var a=new Date(di('date').value).setFullYear(di('year').value);var s=new Date(a);var w=new Date(s.setDate(s.getDate()+t));di('date').value=w.toLS();di('year').value=w.getFullYear();}
+function Mont(t){var a=new Date(di('date').value).setFullYear(di('year').value);var s=new Date(a);var w=new Date(s.setMonth(s.getMonth()+t));di('date').value=w.toLS();di('year').value=w.getFullYear();}
+function Yeer(t){var s=di('year').value;di('year').value=pI(s)+t;di('date').value=new Date(new Date(di('date').value).setFullYear(di('year').value)).toLS();}
+function noow(){var s=new Date();di('date').value=s.toLS();di('year').value=s.getFullYear();}
+//functions for changing date_time ends
+Date.prototype.toLocaleString=function(){ return this.toString().replace(" GMT+0530 (India Standard Time)","")}
+Date.prototype.toLS=function(){ return this.toLocaleString().substr(4)}
 
 /* function Array(len)
 {
@@ -4717,8 +4643,7 @@ function radecr(obj,sun,jday,obs) {
  for(i=1;i<len;++i)this[i]="";
 } */
 ////////////////////////////////////////////////////////////////////////
-function setCookie(c_name,value,expiredays)
-{
+function setCookie(c_name,value,expiredays){
  //   try{
      var exdate=new Date();
      exdate.setDate(exdate.getDate()+expiredays);
@@ -4730,8 +4655,7 @@ function setCookie(c_name,value,expiredays)
  return value;
 }
 ////////////////////////////////////////////////////////////////////////
-function getCookie(c_name)
-{
+function getCookie(c_name){
  if (document.cookie.length>0)
    {
        c_start=document.cookie.indexOf(c_name + "=");
@@ -4746,12 +4670,10 @@ function getCookie(c_name)
  return "";
 }
 var xmlHttp
-function newSrc()
-{
+function newSrc(){
  getXMLFile();
 }
-function getXMLFile(f)
-{
+function getXMLFile(f){
     alert(d);
  xmlHttp=GetXmlHttpObject();
  if (xmlHttp==null)
@@ -4764,8 +4686,7 @@ function getXMLFile(f)
  xmlHttp.open("GET",file,true);
  xmlHttp.send(null);
 }
-function stateChanged()
-{
+function stateChanged(){
  if (xmlHttp.readyState==4)
  {
   di("txtHint").innerHTML=xmlHttp.responseText;
@@ -4773,8 +4694,7 @@ function stateChanged()
   alert(xmlHttp.responseText.match(p));
  }
 }
-function GetXmlHttpObject()
-{
+function GetXmlHttpObject(){
  var xmlHttp=null;
  try
    {
@@ -4798,9 +4718,12 @@ function GetXmlHttpObject()
 function ib(){
 di('m').insertBefore(di('wb_style12'),di('wb_style2')); 
 //di('m').insertBefore(di('bt'),di('wb_style12'))
-di('m').insertBefore(document.createElement('br'),di('wb_style12'))
+////di('m').insertBefore(document.createElement('br'),di('wb_style12'))
 di('m').insertBefore(di('p'),di('wb_style12'))
-di('m').insertBefore(document.createElement('br'),di('wb_style12'))
+////di('m').insertBefore(document.createElement('br'),di('wb_style12'))
+ //if(di('year').value<100 ||di('year').value>10000){
+ // adddiv("style","div#pm //input.pt[value$=Year]{display:none}")
+ //}
 }
 function ic(){
  if(di('wb_style12')==null){
@@ -4810,12 +4733,12 @@ function ic(){
  }
 }
  aa=document.createElement('style'); 
- aa.innerHTML=".whitebox:not([id=wb_style12]){display:block !important;} *{color:#000 !important; background-color:#fff !important;} .bluetab {display:none !important;} #f {width:10px;}";
+ aa.innerHTML=".whitebox:not([id=wb_style12]){display:block !important;} *{color:#000 !important; background-color:#fff !important;} .bluetab {display:none !important;} #f {width:10px;} .w3-top{position:relative;} .main{margin-left:0 !important} .hide-large{display:inline-block !important} .sidenav.collap{display:none !important} div#p{margin-top:0 !important}";
 function printpage(){
  change_tabs('wb',12,2,0);
  document.body.appendChild(aa);
  w3_close();
- //window.print();
+ window.print();
 }
 function nor(){
  if(document.body.lastChild==aa){
@@ -4844,8 +4767,9 @@ cprin="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAgBAMAAACIv8e9AAAAIVB
 cnorm="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACQAAAAhCAMAAACGE/kZAAAAYFBMVEUAAAAAAAACAgIDAwMKDhMQEhMRExSAAAD+AAD/AAD+AQH+BwegoKCkpKSkpaeoqKjk6Ozm6+/7/RTs7u/t7/Du7/Dv7+/v7/Dw8PDz8/P29vb39/f0+P34+Pj7+/v7/f6M3wjdAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAAHdElNRQfgBxYIEikpl9x2AAAA2klEQVQ4y7XS7RKCIBBAUdYIow8Lw9zK8v3fskVIMlnyT7fGyenMwihCTDse9pTgu97uD+qZITiWM0Wx8rEKjexC0hgWqV65emUpZjHZh/LIDwIqjRChC4PAuk/agFQ+qyykESAa61PsJIiTaJbNTqqqyo9Kbjyguq4JKUg/gelyDKJRp7DxNZmGeS0Qs03bpk8Dnr1oKGfKcq4QL22MyIBwhrYe7IIZmh9L7WZs3K8MQj1832rYV+KAaz2e80UowNxyPNLjhUfhb80jgYm+H0FUn3fiZ0vMf3oBN1oj5N0GHD4AAAAASUVORK5CYII=";
 cmenu="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgAQMAAABJtOi3AAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAAAFiS0dEAIgFHUgAAAAJcEhZcwAACxMAAAsTAQCanBgAAAAHdElNRQfgBxYJBjaL82zhAAAAHWlUWHRDb21tZW50AAAAAABDcmVhdGVkIHdpdGggR0lNUGQuZQcAAAAUSURBVAjXY2AgFtT/QyGoKIsPAABPrQ1mR0pALwAAAABJRU5ErkJggg==";
 function doForm(){
- d= new Date(di('date').value);
+ d=$d= new Date(di('date').value);
  d.setFullYear(di('year').value);//added year input box entering extreme dates(below 100, -ve and beyond 10000)
+
   lon = di('longitude').value;
    lat = di('latitude').value;
    pla = di('placename').value;
@@ -4862,9 +4786,9 @@ function doForm(){
      "&placename="+escape(di('placename').value)+
      "&latitude="+escape(lat)+
      "&longitude="+escape(lon); 
-  if(lat<0){lat2=Math.ceil(lat)*-1+"S"+Math.round(frac(lat)*-10000)}else{lat2=Math.floor(lat)+"N"+Math.round(frac(lat)*10000) }
-  if(lon<0){lon2=Math.ceil(lon)*-1+"E"+Math.round(frac(lon)*-10000)}else{lon2=Math.floor(lon)+"W"+Math.round(frac(lon)*10000) }
- document.write('<HTML><HEAD><TITLE> '+di('chartname').value+' - Sri Jagannatha Panchanga - JavaScript</TITLE></HEAD><BODY id="body"><div class="sidenav collap whit animate-left" id="bt">'
+  lat2=(lat<0)?(Math.ceil(lat)*-1+"S"+Math.round(frac(lat)*-10000)):(Math.floor(lat)+"N"+Math.round(frac(lat)*10000))
+  lon2=(lon<0)?(Math.ceil(lon)*-1+"E"+Math.round(frac(lon)*-10000)):(Math.floor(lon)+"W"+Math.round(frac(lon)*10000))
+ document.write('<HTML><HEAD><TITLE> '+di('chartname').value+' - Sri Jagannatha Panchanga - JavaScript</TITLE></HEAD><BODY id="body"><div class="sidenav collap whit animate-left pA" id="bt">'
  +'<a href="javascript:void(0)" onclick="w3_close()"  class="closenav hide-large">Close ×</a>'
  +'<a onclick="change_tabs(&#39;wb&#39;, 12, 12, 0);" id="wb12"> Input Data </a>'
  +'<a onclick="change_tabs(&#39;wb&#39;, 12, 2, 0);" id="wb2" class="active"> General </a>'
@@ -4877,21 +4801,21 @@ function doForm(){
  +'<a onclick="change_tabs(&#39;wb&#39;, 12, 9, 0);" id="wb9"> Jamini </a>'
  +'<a onclick="change_tabs(&#39;wb&#39;, 12, 10, 0);" id="wb10"> Sudarshan Chakra </a>'
  +'<a onclick="change_tabs(&#39;wb&#39;, 12, 11, 0);" id="wb11"> SarvtoBhadra </a>'
- +'<a onclick="change_tabs(&#39;wb&#39;, 12, 1, 0);" id="wb1" class="last"> Bhaava Chalit</a><div class="cb"></div></div><div class="w3-overlay" onclick="w3_close()" style="cursor:pointer"></div><div class="main" style="margin-left:200px;"><header class="container teal"><span class="opennav xlarge hide-large bfl" onclick="w3_open()" id="cme" title="Menu"></span><span onclick="change_tabs(&#39;wb&#39;,12,12,0)" class="bfl" id="cda" title="Change BirthData"></span><span onclick="printpage()" id="cpa" class="bfl" title="Print View"></span><span onclick="nor()" id="cna" class="bfl" title="Normal View"></span><span><h2 style="display:inline-block; vertical-align:bottom;">Shri Jagannath Panchanga</h2></span></header><div class="container" id="m">'
-    +'<div id="p"><strong>This panchanga URL: </strong><a href='+link+parm+'>url</a>'
-    +'<br/><strong>स्थान:</strong>'
-    +di('placename').value+'</br><strong>अक्षांश:</strong>'
-    +lat2+'</br><strong>देशान्तर:</strong>'
-    +lon2+'</br></div>'
+ +'<a onclick="change_tabs(&#39;wb&#39;, 12, 1, 0);" id="wb1" class="last"> Bhaava Chalit</a><div class="cb"></div></div><div class="w3-overlay" onclick="w3_close()" style="cursor:pointer"></div><div class="main" style="margin-left:180px;"><div class="w3-top "><header class="container teal"><span class="opennav xlarge hide-large bfl" onclick="w3_open()" id="cme" title="Menu"></span><span onclick="change_tabs(&#39;wb&#39;,12,12,0)" class="bfl" id="cda" title="Change BirthData"></span><span onclick="printpage()" id="cpa" class="bfl" title="Print View"></span><span onclick="nor()" id="cna" class="bfl" title="Normal View"></span><span><h2 style="display:inline-block; vertical-align:bottom;">Shri Jagannath Panchanga</h2></span></header></div><div class="pA"><div class="container pA" id="m">'
+    +'<div id="p" class="pA"><strong>This panchanga URL: </strong><a href='+link+parm+'>url</a>'
+    +'<strong> स्थान:</strong>'
+    +di('placename').value+'<strong> अक्षांश:</strong>'
+    +lat2+'<strong> देशान्तर:</strong>'
+    +lon2+'</br><b>वर्तमान पंचाग दिनाँक</b> '+ new Date($d).toLocaleString() +'<b> (in JD Format </b>'+jd2+')</div>'
  +s
-    +'</div></div></body></html>'
+    +'</div></div></div></body></html>'
  );
  di('cda').style.background="#7636f4 url("+cdata+") no-repeat center center";
  di('cpa').style.background="#7636f4 url("+cprin+") no-repeat center center";
  di('cna').style.background="#7636f4 url("+cnorm+") no-repeat center center";
  di('cme').style.background="#7636f4 url("+cmenu+") no-repeat center center";
  document.close();
- setTimeout(ic,1000);
+ setTimeout(ic,500);
 }
 function setLatLong(){
  o = di('placeslist');
@@ -4903,8 +4827,7 @@ function setLatLong(){
  di('latitude').value=k[1];
 
 }
-function gup( name ) //Get URL Parameter value for 'name'
-{
+function gup( name ){ //Get URL Parameter value for 'name'
   name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
   var regexS = "[\\?&]"+name+"=([^&#]*)";
   var regex = new RegExp( regexS );
@@ -4924,9 +4847,12 @@ function gup( name ) //Get URL Parameter value for 'name'
 //self made function 
 function getGrahas(j,l,lat){
  obs={'longitude':l,'latitude':lat};this.grahas=new Array(9);this.grahas_next=new Array(9);this.speed=new Array(9);
+ this.gr=new Array(9);this.grn=new Array(9);
  for(a=0;a<7;a++){
-  this.grahas[a]=PlanetAlt(a,j,obs)[5]
-  this.grahas_next[a]=PlanetAlt(a,j+1,obs)[5]
+  this.gr[a]=PlanetAlt(a,j,obs)
+  this.grahas[a]=this.gr[a][5]
+  this.grn[a]=PlanetAlt(a,j+1,obs)
+  this.grahas_next[a]=this.grn[a][5]
   this.speed[a]=((this.grahas_next[a]-this.grahas[a])<(-300))?(((this.grahas_next[a]-this.grahas[a]+360)%360)/day):(((this.grahas_next[a]-this.grahas[a])%360)/day);
  }
 }
@@ -4939,11 +4865,11 @@ function showtime(){
 //function window_onload()
 //Initialization block
 {
-htt='<div class="Section1"><div id="EnterForm"><div class="whitebox" id="wb_style12" style="display:none;"><div id="Iform"><form action="javascript:doForm()" method="Get" enctype="application/x-www-form-urlencoded" ID="datetimeplace"> <label for="chartname">ChartName</label> <input id="chartname" type="text">   <input id="Submit1" onclick="doForm()" type="submit" value="GetPanchanga" action="javascript:doForm()"> <label for="date">Change Date/Mon/Year and Location if needed</label>  <input id="date" type="text" onchange=\'di("year").value=new Date(di("date").value).getFullYear();\'> <label for="year">Changing in year figure necessary for year below 100 and negative dates and +10000 dates</label>  <input id="year" type="text"> <!-- <label for="tzone">TimeZone</label>   <input id="tzone" type="text"> --> <label for="placename">Place Name:</label>  <input id="placename" type="text" > <label for="longitude">Longitude:(East -ve/West+ve)</label>  <input id="longitude" type="text" > <label for="latitude">Latitude:(South -ve/North +ve)</label>  <input id="latitude" type="text"><p class="inp"/> <label for="Purnimanta">Purnimanta/Amanta.</label>(default is Purnimanta)  <input id="Purnimanta" type="checkbox" checked><p class="inp"/> <label for="Niryan">Niryan/Sayan.</label>(default is Niryan)  <input id="Niryan" type="checkbox" checked><p class="inp"/> <label for="placeslist">OR Select previously entered values<br/>Recently used places:</label>  <select id="placeslist" onchange="setLatLong()" name="placelist"></select> <br/><p class="inp">©Made for <a href="http://www.srijagannath.org">SriJagannatha Center</a>.<br/>To save this file on your local machine or mobile, Use File;Save As menu in your browser.<br/><i>For Credits do View,Source in menu.</i> <i><br/>Version Date:15 Jun 2016</i> <i><br/>on first time Bhopal(-77.28E 23.17N),India location is default as example.</i> <br/>NOTE: ACCURACY warning: Calculations are approximate upto few minutes. <br/>Valid for dates from year -180000 to +180000 <b><br/>Feel FREE to edit/modify/upgrade this javascript, right click on this screen area and do "save as" or do "view source".<br/><em>WAIT PAGE LOADING.....</em></b></p></div></div>'
+htt='<div class="Section1"><div id="EnterForm"><div class="whitebox pA" id="wb_style12" style="display:none;"><div id="Iform"><form action="javascript:doForm()" method="Get" enctype="application/x-www-form-urlencoded" ID="datetimeplace"> <label for="chartname">ChartName</label> <input id="chartname" type="text"><input id="q" class="pt fr" onclick="noow()" type="button" value="Now">   <input id="Submit1" onclick="doForm()" type="submit" value="GetPanchanga" action="javascript:doForm()"> <label for="date">Change Date/Mon/Year and Location if needed</label>  <input id="date" type="text" onchange=\'di("year").value=new Date(di("date").value).getFullYear();\'> <label for="year">Changing in year figure necessary for year below 100 and negative dates and +10000 dates</label>  <input id="year" type="text"><div id="pm"><p><input type="button" class="pt" onclick="seec(-1)" value="-Sec"><input type="button" class="pt" onclick="seec(-15)" value="-15Sec"><input type="button" class="pt" onclick="Mint(-1)" value="-Min"><input type="button" class="pt" onclick="Hoou(-1)" value="-Hour"><input type="button" class="pt" onclick="Datt(-1)" value="-Day"><input type="button"  class="pt" onclick="Mont(-1)" value="-Month"><input type="button" class="pt" onclick="Yeer(-1)" value="-Year"></p><p><input type="button" class="pt" onclick="seec(1)" value="+Sec"><input type="button" class="pt" onclick="seec(15)" value="+15Sec"><input type="button" class="pt" onclick="Mint(1)" value="+Min"><input type="button" class="pt" onclick="Hoou(1)" value="+Hour"><input type="button" class="pt" onclick="Datt(1)" value="+Day"><input type="button" class="pt" onclick="Mont(1)" value="+Month"><input type="button" class="pt" onclick="Yeer(1)" value="+Year"></p></div> <!-- <label for="tzone">TimeZone</label>   <input id="tzone" type="text"> --> <label for="placename">Place Name:</label>  <input id="placename" type="text" > <label for="longitude">Longitude:(East -ve/West+ve)</label>  <input id="longitude" type="text" > <label for="latitude">Latitude:(South -ve/North +ve)</label>  <input id="latitude" type="text"><p class="inp"/> <label for="Purnimanta">Purnimanta/Amanta.</label>(default is Purnimanta)  <input id="Purnimanta" type="checkbox" checked><p class="inp"/> <label for="Niryan">Niryan/Sayan.</label>(default is Niryan)  <input id="Niryan" type="checkbox" checked><p class="inp"/> <label for="placeslist">OR Select previously entered values<br/>Recently used places:</label>  <select id="placeslist" onchange="setLatLong()" name="placelist"></select> <br/><p class="inp">©Made for <a href="http://www.srijagannath.org">SriJagannatha Center</a>.<br/>To save this file on your local machine or mobile, Use File;Save As menu in your browser.<br/><i>For Credits do View,Source in menu.</i> <i><br/>Version Date:15 Jun 2016</i> <i><br/>on first time Bhopal(-77.28E 23.17N),India location is default as example.</i> <br/>NOTE: ACCURACY warning: Calculations are approximate upto few minutes. <br/>Valid for dates from year -180000 to +180000 <b><br/>Feel FREE to edit/modify/upgrade this javascript, right click on this screen area and do "save as" or do "view source".<br/><em>WAIT PAGE LOADING.....</em></b></p></div></div>'
 document.write(htt);
 function main(){
  var today = new Date();
- di("date").value = today.toString();
+ di("date").value = today.toLS();
  di("year").value = today.getFullYear();
  di("chartname").value = "Krishna";
 // di('tzone').value=today.getTimezoneOffset()/-60;
@@ -4991,7 +4917,7 @@ function main(){
  }
  //showtime();
 if(typeof(date_time)!="undefined"){
-di('date').value=date_time;
+di('date').value=date_time.toLS();
 di('year').value=date_time.getFullYear();
 di('placename').value=pla;
 di('longitude').value=lon;
