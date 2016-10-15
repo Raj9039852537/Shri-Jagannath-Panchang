@@ -8,3 +8,6 @@ the file named SJPL_with_true is advanced version created by me with the help of
 
 
 Lite version only show planet data in tabular format for given no. of days at given date and time.
+
+
+View it live on https://raj9039852537.github.io/Shri-Jagannath-Panchang/ 
