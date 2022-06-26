@@ -813,7 +813,7 @@ dasaOrder=ketuOrder[strong-1];
 if(gP[6]>gP[9])dasaOrder=saturnOrder[strong-1];
 else if(gP[6]<gP[9])dasaOrder=ketuOrder[strong-1];
 }else{
-dasaOrder=generalOrder[strong-1];
+dasaOrder=generalOrder[((strong-1+12)%12)];
 }
 for(i=0;i<12;i++)dasaOrder.push(dasaOrder[i])
 dasaLength=calcDasaYear();
